@@ -193,61 +193,20 @@ models:
         description: "YouTube ID of the member"
       - name: mastodon
         description: "Mastodon handle of the member"
-  # - name: dim_member_contact_details
-  #   description: "Dimension table for congress members' contact details"
-  #   columns:
-  #     - name: member_id
-  #       description: "Unique identifier for a member"
-  #     - name: url
-  #       description: "Website URL of the member"
-  #     - name: address
-  #       description: "Address of the member"
-  #     - name: phone
-  #       description: "Phone number of the member"
-  #     - name: contact_form
-  #       description: "Contact form URL of the member"
-  #     - name: rss_url
-  #       description: "RSS URL of the member"
-  #     - name: office_address
-  #       description: "Office address of the member"
-  #     - name: city
-  #       description: "City of the member's office"
-  #     - name: zip_code
-  #       description: "ZIP code of the member's office"
-  #     - name: official_website_url
-  #       description: "Official website URL of the member"
-
-  # - name: dim_social_media
-  #   description: "Dimension table for congress members' social media details"
-  #   columns:
-  #     - name: member_id
-  #       description: "Unique identifier for a member"
-  #     - name: twitter
-  #       description: "Twitter handle of the member"
-  #     - name: twitter_id
-  #       description: "Twitter ID of the member"
-  #     - name: facebook
-  #       description: "Facebook profile of the member"
-  #     - name: youtube
-  #       description: "YouTube channel of the member"
-  #     - name: youtube_id
-  #       description: "YouTube ID of the member"
-  #     - name: mastodon
-  #       description: "Mastodon handle of the member"
-
-  # - name: fact_legislation
-  #   description: "Fact table for congress members' legislation counts"
-  #   columns:
-  #     - name: member_id
-  #       description: "Unique identifier for a member"
-  #     - name: sponsored_legislation_count
-  #       description: "Count of legislation sponsored by the member"
-  #     - name: sponsored_legislation_url
-  #       description: "URL of the sponsored legislation"
-  #     - name: cosponsored_legislation_count
-  #       description: "Count of legislation cosponsored by the member"
-  #     - name: cosponsored_legislation_url
-  #       description: "URL of the cosponsored legislation"
+  
+  - name: congress_member_legislation_activity_historical
+    description: "Fact table for congress members' legislation counts"
+    columns:
+      - name: bioguide_id
+        description: "Unique identifier for a member"
+      - name: num_sponsored_legislation
+        description: "Count of legislation sponsored by the member"
+      - name: sponsored_legislation_url
+        description: "URL of the sponsored legislation"
+      - name: num_consponsored_legislation
+        description: "Count of legislation cosponsored by the member"
+      - name: cosponsored_legislation_url
+        description: "URL of the cosponsored legislation"
 
   # - name: fact_terms
   #   description: "Fact table for congress members' terms"
