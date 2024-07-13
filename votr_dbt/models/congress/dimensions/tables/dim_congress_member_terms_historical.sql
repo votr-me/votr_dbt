@@ -5,6 +5,7 @@
 
 select 
     bioguide_id,
+    is_current_member,
     chamber,
     member_type,
     congress,
