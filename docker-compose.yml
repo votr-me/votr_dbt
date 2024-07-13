@@ -1,0 +1,10 @@
+services:
+  dbt:
+    image: ghcr.io/dbt-labs/dbt-postgres:1.8.2  # Replace with your dbt image name
+    platform: linux/x86_64
+    volumes:
+      - ./votr_dbt:/usr/app/votr_dbt  # Ensure this path is correct
+      - ~/.dbt/profiles.yml:/root/.dbt/profiles.yml  # Ensure this path is correct
+    working_dir: /usr/app/votr_dbt
+    entrypoint: ["dbt"]
+    command: ["run"]

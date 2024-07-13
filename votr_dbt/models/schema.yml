@@ -1,0 +1,284 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: congress_members
+      - name: congress_leadership
+      - name: congress_member_terms
+      - name: congress_party_history
+
+models:
+  - name: dim_congress_member_ids_historical
+    description: "Historical table for congress members' various IDs."
+    columns:
+      - name: bioguide_id
+        description: "Unique identifier for a member"
+      - name: thomas_id
+        description: "THOMAS ID of the member"
+      - name: opensecrets_id
+        description: "OpenSecrets ID of the member"
+      - name: lis_id
+        description: "Legislative Information System ID of the member"
+      - name: cspan_id
+        description: "C-SPAN ID of the member"
+      - name: govtrack_id
+        description: "GovTrack ID of the member"
+      - name: votesmart_id
+        description: "VoteSmart ID of the member"
+      - name: ballotpedia_id
+        description: "Ballotpedia ID of the member"
+      - name: washington_post_id
+        description: "Washington Post ID of the member"
+      - name: icpsr_id
+        description: "ICPSR ID of the member"
+      - name: wikipedia_id
+        description: "Wikipedia ID of the member"
+      - name: fec_id
+        description: "FEC ID of the member"
+
+  - name: dim_congress_member_ids
+    description: "Table for congress members' various IDs."
+    columns:
+      - name: bioguide_id
+        description: "Unique identifier for a member"
+      - name: thomas_id
+        description: "THOMAS ID of the member"
+      - name: opensecrets_id
+        description: "OpenSecrets ID of the member"
+      - name: lis_id
+        description: "Legislative Information System ID of the member"
+      - name: cspan_id
+        description: "C-SPAN ID of the member"
+      - name: govtrack_id
+        description: "GovTrack ID of the member"
+      - name: votesmart_id
+        description: "VoteSmart ID of the member"
+      - name: ballotpedia_id
+        description: "Ballotpedia ID of the member"
+      - name: washington_post_id
+        description: "Washington Post ID of the member"
+      - name: icpsr_id
+        description: "ICPSR ID of the member"
+      - name: wikipedia_id
+        description: "Wikipedia ID of the member"
+      - name: fec_id
+        description: "FEC ID of the member"
+
+  - name: dim_congress_member_leadership_historical
+    description: "Historical table for congress members' leadership positions."
+    columns:
+      - name: bioguide_id
+        description: "Unique identifier for a member"
+      - name: congress
+        description: "Congress number"
+      - name: is_current
+        description: "Whether the member currently holds the leadership position"
+      - name: leadership_type
+        description: "Type of leadership position"
+
+  - name: dim_congress_member_leadership
+    description: "Table for congress members' leadership positions."
+    columns:
+      - name: bioguide_id
+        description: "Unique identifier for a member"
+      - name: congress
+        description: "Congress number"
+      - name: is_current
+        description: "Whether the member currently holds the leadership position"
+      - name: leadership_type
+        description: "Type of leadership position"
+
+  - name: dim_congress_member_contact_info_historical
+    description: "Historical table for congress members' contact information."
+    columns:
+      - name: bioguide_id
+        description: "Unique identifier for a member"
+      - name: address
+        description: "Address of the member"
+      - name: office_phone_number
+        description: "Office phone number of the member"
+      - name: contact_form
+        description: "Contact form URL of the member"
+      - name: is_current_member
+        description: "Whether the member is currently serving"
+      - name: office_address
+        description: "Office address of the member"
+      - name: office_city
+        description: "City of the member's office"
+      - name: office_zipcode
+        description: "Zip code of the member's office, standardized to a 5-digit integer"
+      - name: official_website_url
+        description: "Official website URL of the member"
+
+  - name: dim_congress_member_historical
+    description: "Historical table for congress members, including biographical information, party affiliation, and other relevant details."
+    columns:
+      - name: bioguide_id
+        description: "Unique identifier for a member"
+      - name: last_name
+        description: "Last name of the member, normalized and punctuation removed"
+      - name: first_name
+        description: "First name of the member, normalized and punctuation removed"
+      - name: middle_name
+        description: "Middle name of the member, normalized and punctuation removed"
+      - name: suffix
+        description: "Suffix of the member's name, normalized and punctuation removed"
+      - name: nickname
+        description: "Nickname of the member, normalized and punctuation removed"
+      - name: honorific_name
+        description: "Honorific name of the member, normalized and punctuation removed"
+      - name: birthday
+        description: "Birthday of the member, normalized"
+      - name: gender
+        description: "Gender of the member, normalized and punctuation removed"
+      - name: member_type
+        description: "Type of member (Senator or Representative), normalized and punctuation removed"
+      - name: member_state
+        description: "State represented by the member, normalized and punctuation removed"
+      - name: member_district
+        description: "District represented by the member, normalized"
+      - name: senate_class
+        description: "Senate class of the member, normalized"
+      - name: member_party
+        description: "Political party of the member, normalized and punctuation removed"
+      - name: is_current_member
+        description: "Whether the member is currently serving"
+      - name: depiction_attribution
+        description: "Depiction attribution of the member, text extracted from <a> tags if present"
+      - name: depiction_image_url
+        description: "URL of the member's depiction image"
+
+  - name: dim_congress_member_social_media_historical
+    description: "Historical table for congress members' social media details."
+    columns:
+      - name: bioguide_id
+        description: "Unique identifier for a member"
+      - name: is_current_member
+        description: "Whether the member is currently serving"
+      - name: rss_url
+        description: "RSS feed URL of the member"
+      - name: twitter
+        description: "Twitter handle of the member"
+      - name: twitter_id
+        description: "Twitter ID of the member, converted to text"
+      - name: facebook
+        description: "Facebook profile of the member"
+      - name: youtube
+        description: "YouTube channel of the member"
+      - name: youtube_id
+        description: "YouTube ID of the member"
+      - name: mastodon
+        description: "Mastodon handle of the member"
+
+  - name: dim_congress_member_social_media
+    description: "Table for congress members' social media details."
+    columns:
+      - name: bioguide_id
+        description: "Unique identifier for a member"
+      - name: is_current_member
+        description: "Whether the member is currently serving"
+      - name: rss_url
+        description: "RSS feed URL of the member"
+      - name: twitter
+        description: "Twitter handle of the member"
+      - name: twitter_id
+        description: "Twitter ID of the member, converted to text"
+      - name: facebook
+        description: "Facebook profile of the member"
+      - name: youtube
+        description: "YouTube channel of the member"
+      - name: youtube_id
+        description: "YouTube ID of the member"
+      - name: mastodon
+        description: "Mastodon handle of the member"
+  # - name: dim_member_contact_details
+  #   description: "Dimension table for congress members' contact details"
+  #   columns:
+  #     - name: member_id
+  #       description: "Unique identifier for a member"
+  #     - name: url
+  #       description: "Website URL of the member"
+  #     - name: address
+  #       description: "Address of the member"
+  #     - name: phone
+  #       description: "Phone number of the member"
+  #     - name: contact_form
+  #       description: "Contact form URL of the member"
+  #     - name: rss_url
+  #       description: "RSS URL of the member"
+  #     - name: office_address
+  #       description: "Office address of the member"
+  #     - name: city
+  #       description: "City of the member's office"
+  #     - name: zip_code
+  #       description: "ZIP code of the member's office"
+  #     - name: official_website_url
+  #       description: "Official website URL of the member"
+
+  # - name: dim_social_media
+  #   description: "Dimension table for congress members' social media details"
+  #   columns:
+  #     - name: member_id
+  #       description: "Unique identifier for a member"
+  #     - name: twitter
+  #       description: "Twitter handle of the member"
+  #     - name: twitter_id
+  #       description: "Twitter ID of the member"
+  #     - name: facebook
+  #       description: "Facebook profile of the member"
+  #     - name: youtube
+  #       description: "YouTube channel of the member"
+  #     - name: youtube_id
+  #       description: "YouTube ID of the member"
+  #     - name: mastodon
+  #       description: "Mastodon handle of the member"
+
+  # - name: fact_legislation
+  #   description: "Fact table for congress members' legislation counts"
+  #   columns:
+  #     - name: member_id
+  #       description: "Unique identifier for a member"
+  #     - name: sponsored_legislation_count
+  #       description: "Count of legislation sponsored by the member"
+  #     - name: sponsored_legislation_url
+  #       description: "URL of the sponsored legislation"
+  #     - name: cosponsored_legislation_count
+  #       description: "Count of legislation cosponsored by the member"
+  #     - name: cosponsored_legislation_url
+  #       description: "URL of the cosponsored legislation"
+
+  # - name: fact_terms
+  #   description: "Fact table for congress members' terms"
+  #   columns:
+  #     - name: member_id
+  #       description: "Unique identifier for a member"
+  #     - name: chamber
+  #       description: "Chamber (Senate or House) where the member served"
+  #     - name: congress
+  #       description: "Congress number"
+  #     - name: district
+  #       description: "District represented by the member"
+  #     - name: end_year
+  #       description: "End year of the term"
+  #     - name: member_type
+  #       description: "Type of member (Senator or Representative)"
+  #     - name: start_year
+  #       description: "Start year of the term"
+  #     - name: state_code
+  #       description: "State code of the member"
+  #     - name: state_name
+  #       description: "State name of the member"
+
+  # - name: fact_leadership
+  #   description: "Fact table for congress members' leadership positions"
+  #   columns:
+  #     - name: member_id
+  #       description: "Unique identifier for a member"
+  #     - name: congress
+  #       description: "Congress number"
+  #     - name: current
+  #       description: "Whether the member is currently in a leadership position"
+  #     - name: leadership_type
+  #       description: "Type of leadership position"
