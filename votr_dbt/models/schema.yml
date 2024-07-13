@@ -8,6 +8,10 @@ sources:
       - name: congress_leadership
       - name: congress_member_terms
       - name: congress_party_history
+      - name: bill_info
+      - name: bill_sponsors
+      - name: bill_details
+      - name: bill_cosponsors
 
 models:
   - name: dim_congress_member_ids_historical
