@@ -64,6 +64,15 @@ models:
             +materialized: view
           dim_congress_member:
             +materialized: view
+      fact:
+        tables:
+          +materialized: table
+          congress_member_legislation_activity_historical:
+            +materialized:table
+        views:
+          +materialized: view
+          congress_member_legislation_activity_latest:
+            +materialized: view
     bills:
       +schema: public
       +materialized: table
