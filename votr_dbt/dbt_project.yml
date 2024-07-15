@@ -74,10 +74,8 @@ models:
           congress_member_legislation_activity_latest:
             +materialized: view
     bills:
-      +schema: public
       +materialized: table
     votes:
-      +schema: public
       +materialized: table
 
 # models:
