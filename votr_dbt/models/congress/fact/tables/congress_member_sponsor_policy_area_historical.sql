@@ -4,21 +4,23 @@
 
 with bill_sponsors as (
     select *
-    from {{ ref('dim_bill_sponsors_historical') }}
+    from {{ ref('dim_bill_sponsorships_historical') }}
 ),
 bill_info as (
     select *
     from {{ ref('dim_bill_info_historical') }}
 )
 select
-    a.bioguide_id,
-    b.policy_area_name,
-    count(distinct b.bill_id) as num_bills_sponsored_bills
+    bill_sponsors.bioguide_id,
+    bill_info.policy_area_name,
+    bill_sponsors.sponsorship_type,
+    count(distinct bill_info.bill_id) as num_bills_sponsored
 from
-    bill_sponsors a
+    bill_sponsors
 left join
-    bill_info b
-    on a.bill_id = b.bill_id
+    bill_info
+    on bill_sponsors.bill_id = bill_info.bill_id
 group by
-    a.bioguide_id,
-    b.policy_area_name
+    bill_sponsors.bioguide_id,
+    bill_info.policy_area_name,
+    bill_sponsors.sponsorship_type

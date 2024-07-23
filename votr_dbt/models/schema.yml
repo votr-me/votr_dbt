@@ -7,12 +7,10 @@ sources:
       - name: congress_members
       - name: congress_leadership
       - name: congress_member_terms
-      - name: congress_party_history
       - name: bill_info
-      # - name: bill_sponsors
+      - name: bill_sponsors
       - name: bill_details
       - name: bill_cosponsors
-      - name: bill_sponsors_2
 
 models:
   - name: dim_congress_member_ids_historical
@@ -212,37 +210,3 @@ models:
         description: "Count of legislation cosponsored by the member"
       - name: cosponsored_legislation_url
         description: "URL of the cosponsored legislation"
-
-  # - name: fact_terms
-  #   description: "Fact table for congress members' terms"
-  #   columns:
-  #     - name: member_id
-  #       description: "Unique identifier for a member"
-  #     - name: chamber
-  #       description: "Chamber (Senate or House) where the member served"
-  #     - name: congress
-  #       description: "Congress number"
-  #     - name: district
-  #       description: "District represented by the member"
-  #     - name: end_year
-  #       description: "End year of the term"
-  #     - name: member_type
-  #       description: "Type of member (Senator or Representative)"
-  #     - name: start_year
-  #       description: "Start year of the term"
-  #     - name: state_code
-  #       description: "State code of the member"
-  #     - name: state_name
-  #       description: "State name of the member"
-
-  # - name: fact_leadership
-  #   description: "Fact table for congress members' leadership positions"
-  #   columns:
-  #     - name: member_id
-  #       description: "Unique identifier for a member"
-  #     - name: congress
-  #       description: "Congress number"
-  #     - name: current
-  #       description: "Whether the member is currently in a leadership position"
-  #     - name: leadership_type
-  #       description: "Type of leadership position"

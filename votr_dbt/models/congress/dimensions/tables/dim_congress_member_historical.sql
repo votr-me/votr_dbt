@@ -9,7 +9,6 @@ select
     middle_name,
     suffix,
     nickname,
-    honorific_name,
     birthday,
     gender,
     member_type,
