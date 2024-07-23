@@ -1,5 +1,4 @@
 SELECT
-    bioguide_id,
-    bill_id,
-    is_by_request
-from {{ source('raw', 'bill_sponsors_2') }}
+    "bioguideId" as bioguide_id,
+    bill_id
+from {{ source('raw', 'bill_sponsors') }}
