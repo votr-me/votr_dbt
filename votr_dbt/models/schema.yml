@@ -11,6 +11,9 @@ sources:
       - name: bill_sponsors
       - name: bill_details
       - name: bill_cosponsors
+      - name: acs5_us
+      - name: acs5_state
+      - name: acs5_congressional_district
 
 models:
   - name: dim_congress_member_ids_historical
@@ -210,3 +213,620 @@ models:
         description: "Count of legislation cosponsored by the member"
       - name: cosponsored_legislation_url
         description: "URL of the cosponsored legislation"
+
+  - name: acs5_congressional_districts
+    description: >
+      This model refers to the raw.acs5_congressional_districts table and renames columns using a specified mapping. 
+      The columns are cast to appropriate data types for consistency. The view provides detailed demographic, 
+      economic, and social information at the congressional district level.
+    columns:
+      - name: sex_total_population
+        description: Total population based on sex.
+      - name: sex_moe
+        description: Margin of error for the total population based on sex.
+      - name: sex_male
+        description: Total male population.
+      - name: sex_male_moe
+        description: Margin of error for the total male population.
+      - name: sex_male_under_5
+        description: Male population under the age of 5.
+      - name: sex_male_under_5_moe
+        description: Margin of error for the male population under the age of 5.
+      - name: sex_male_5_to_9
+        description: Male population aged 5 to 9.
+      - name: sex_male_5_to_9_moe
+        description: Margin of error for the male population aged 5 to 9.
+      - name: sex_male_10_to_14
+        description: Male population aged 10 to 14.
+      - name: sex_male_10_to_14_moe
+        description: Margin of error for the male population aged 10 to 14.
+      - name: sex_male_15_to_17
+        description: Male population aged 15 to 17.
+      - name: sex_male_15_to_17_moe
+        description: Margin of error for the male population aged 15 to 17.
+      - name: sex_female
+        description: Total female population.
+      - name: sex_female_moe
+        description: Margin of error for the total female population.
+      - name: sex_female_under_5
+        description: Female population under the age of 5.
+      - name: sex_female_under_5_moe
+        description: Margin of error for the female population under the age of 5.
+      - name: sex_female_5_to_9
+        description: Female population aged 5 to 9.
+      - name: sex_female_5_to_9_moe
+        description: Margin of error for the female population aged 5 to 9.
+      - name: sex_female_10_to_14
+        description: Female population aged 10 to 14.
+      - name: sex_female_10_to_14_moe
+        description: Margin of error for the female population aged 10 to 14.
+      - name: sex_female_15_to_17
+        description: Female population aged 15 to 17.
+      - name: sex_female_15_to_17_moe
+        description: Margin of error for the female population aged 15 to 17.
+      - name: total_population
+        description: Total population.
+      - name: total_population_moe
+        description: Margin of error for the total population.
+      - name: race_white_alone
+        description: Population identifying as White alone.
+      - name: race_white_alone_moe
+        description: Margin of error for the population identifying as White alone.
+      - name: race_black_or_african_american_alone
+        description: Population identifying as Black or African American alone.
+      - name: race_black_or_african_american_alone_moe
+        description: Margin of error for the population identifying as Black or African American alone.
+      - name: race_american_indian_and_alaska_native_alone
+        description: Population identifying as American Indian and Alaska Native alone.
+      - name: race_american_indian_and_alaska_native_alone_moe
+        description: Margin of error for the population identifying as American Indian and Alaska Native alone.
+      - name: race_asian_alone
+        description: Population identifying as Asian alone.
+      - name: race_asian_alone_moe
+        description: Margin of error for the population identifying as Asian alone.
+      - name: race_native_hawaiian_and_pacific_islander_alone
+        description: Population identifying as Native Hawaiian and Other Pacific Islander alone.
+      - name: race_native_hawaiian_and_pacific_islander_alone_moe
+        description: Margin of error for the population identifying as Native Hawaiian and Other Pacific Islander alone.
+      - name: race_other_race_alone
+        description: Population identifying as some other race alone.
+      - name: race_other_race_alone_moe
+        description: Margin of error for the population identifying as some other race alone.
+      - name: race_two_or_more_races
+        description: Population identifying as two or more races.
+      - name: race_two_or_more_races_moe
+        description: Margin of error for the population identifying as two or more races.
+      - name: hispanic_latino_total
+        description: Total population identifying as Hispanic or Latino.
+      - name: hispanic_latino_total_moe
+        description: Margin of error for the total population identifying as Hispanic or Latino.
+      - name: hh_total_population
+        description: Total household population.
+      - name: hh_total_population_moe
+        description: Margin of error for the total household population.
+      - name: hh_family
+        description: Total number of family households.
+      - name: hh_family_moe
+        description: Margin of error for the total number of family households.
+      - name: hh_family_married
+        description: Total number of married-couple family households.
+      - name: hh_family_married_moe
+        description: Margin of error for the total number of married-couple family households.
+      - name: hh_family_other
+        description: Total number of other family households.
+      - name: hh_family_other_moe
+        description: Margin of error for the total number of other family households.
+      - name: hh_family_male_no_spouse
+        description: Total number of family households with a male householder and no spouse present.
+      - name: hh_family_male_no_spouse_moe
+        description: Margin of error for the total number of family households with a male householder and no spouse present.
+      - name: hh_family_female_no_husband
+        description: Total number of family households with a female householder and no husband present.
+      - name: hh_family_female_no_husband_moe
+        description: Margin of error for the total number of family households with a female householder and no husband present.
+      - name: hh_nonfamily
+        description: Total number of nonfamily households.
+      - name: hh_nonfamily_moe
+        description: Margin of error for the total number of nonfamily households.
+      - name: hh_nonfamily_living_alone
+        description: Total number of nonfamily households with householder living alone.
+      - name: hh_nonfamily_living_alone_moe
+        description: Margin of error for the total number of nonfamily households with householder living alone.
+      - name: hh_nonfamily_not_living_alone
+        description: Total number of nonfamily households with householder not living alone.
+      - name: hh_nonfamily_not_living_alone_moe
+        description: Margin of error for the total number of nonfamily households with householder not living alone.
+      - name: hh_under_18_total
+        description: Total number of households with one or more people under 18 years.
+      - name: hh_under_18_total_moe
+        description: Margin of error for the total number of households with one or more people under 18 years.
+      - name: hh_under_18
+        description: Total number of family households with one or more people under 18 years.
+      - name: hh_under_18_moe
+        description: Margin of error for the total number of family households with one or more people under 18 years.
+      - name: hh_under_18_family
+        description: Total number of married-couple family households with one or more people under 18 years.
+      - name: hh_under_18_family_moe
+        description: Margin of error for the total number of married-couple family households with one or more people under 18 years.
+      - name: hh_under_18_married
+        description: Total number of other family households with one or more people under 18 years.
+      - name: hh_under_18_married_moe
+        description: Margin of error for the total number of other family households with one or more people under 18 years.
+      - name: hh_under_18_other
+        description: Total number of family households with male householder, no spouse present, and one or more people under 18 years.
+      - name: hh_under_18_other_moe
+        description: Margin of error for the total number of family households with male householder, no spouse present, and one or more people under 18 years.
+      - name: hh_under_18_male_no_spouse
+        description: Total number of family households with female householder, no husband present, and one or more people under 18 years.
+      - name: hh_under_18_male_no_spouse_moe
+        description: Margin of error for the total number of family households with female householder, no husband present, and one or more people under 18 years.
+      - name: hh_under_18_female_no_husband
+        description: Total number of nonfamily households with one or more people under 18 years.
+      - name: hh_under_18_female_no_husband_moe
+        description: Margin of error for the total number of nonfamily households with one or more people under 18 years.
+      - name: hh_under_18_nonfamily
+        description: Total number of nonfamily households with male householder and one or more people under 18 years.
+      - name: hh_under_18_nonfamily_moe
+        description: Margin of error for the total number of nonfamily households with male householder and one or more people under 18 years.
+      - name: hh_under_18_nonfamily_male
+        description: Total number of nonfamily households with female householder and one or more people under 18 years.
+      - name: hh_under_18_nonfamily_male_moe
+        description: Margin of error for the total number of nonfamily households with female householder and one or more people under 18 years.
+      - name: hh_under_18_nonfamily_female
+        description: Total number of households with no people under 18 years.
+      - name: hh_under_18_nonfamily_female_moe
+        description: Margin of error for the total number of households with no people under 18 years.
+      - name: hh_no_under_18
+        description: Total number of family households with no people under 18 years.
+      - name: hh_no_under_18_moe
+        description: Margin of error for the total number of family households with no people under 18 years.
+      - name: hh_no_under_18_family
+        description: Total number of married-couple family households with no people under 18 years.
+      - name: hh_no_under_18_family_moe
+        description: Margin of error for the total number of married-couple family households with no people under 18 years.
+      - name: hh_no_under_18_married
+        description: Total number of other family households with no people under 18 years.
+      - name: hh_no_under_18_married_moe
+        description: Margin of error for the total number of other family households with no people under 18 years.
+      - name: hh_no_under_18_other
+        description: Total number of family households with male householder, no wife present, and no people under 18 years.
+      - name: hh_no_under_18_other_moe
+        description: Margin of error for the total number of family households with male householder, no wife present, and no people under 18 years.
+      - name: hh_no_under_18_male_no_wife
+        description: Total number of family households with female householder, no husband present, and no people under 18 years.
+      - name: hh_no_under_18_male_no_wife_moe
+        description: Margin of error for the total number of family households with female householder, no husband present, and no people under 18 years.
+      - name: hh_no_under_18_female_no_spouse
+        description: Total number of nonfamily households with no people under 18 years.
+      - name: hh_no_under_18_female_no_spouse_moe
+        description: Margin of error for the total number of nonfamily households with no people under 18 years.
+      - name: hh_no_under_18_nonfamily
+        description: Total number of nonfamily households with male householder and no people under 18 years.
+      - name: hh_no_under_18_nonfamily_moe
+        description: Margin of error for the total number of nonfamily households with male householder and no people under 18 years.
+      - name: hh_no_under_18_nonfamily_male
+        description: Total number of nonfamily households with female householder and no people under 18 years.
+      - name: hh_no_under_18_nonfamily_male_moe
+        description: Margin of error for the total number of nonfamily households with female householder and no people under 18 years.
+      - name: hh_no_under_18_nonfamily_female
+        description: Total number of households with no people under 18 years.
+      - name: hh_no_under_18_nonfamily_female_moe
+        description: Margin of error for the total number of households with no people under 18 years.
+      - name: educational_attainment_total
+        description: Total population for educational attainment.
+      - name: educational_attainment_total_moe
+        description: Margin of error for the total population for educational attainment.
+      - name: educational_attainment_high_school
+        description: Population with high school diploma.
+      - name: educational_attainment_high_school_moe
+        description: Margin of error for the population with high school diploma.
+      - name: educational_attainment_bachelor_degree
+        description: Population with bachelor's degree.
+      - name: educational_attainment_bachelor_degree_moe
+        description: Margin of error for the population with bachelor's degree.
+      - name: educational_attainment_masters_degree
+        description: Population with master's degree.
+      - name: educational_attainment_masters_degree_moe
+        description: Margin of error for the population with master's degree.
+      - name: educational_attainment_professional_school
+        description: Population with professional school degree.
+      - name: educational_attainment_professional_school_moe
+        description: Margin of error for the population with professional school degree.
+      - name: educational_attainment_doctorate_degree
+        description: Population with doctorate degree.
+      - name: educational_attainment_doctorate_degree_moe
+        description: Margin of error for the population with doctorate degree.
+      - name: language_spoken_at_home_total
+        description: Total population for language spoken at home.
+      - name: language_spoken_at_home_total_moe
+        description: Margin of error for the total population for language spoken at home.
+      - name: language_spoken_at_home_english_only
+        description: Population that speaks only English at home.
+      - name: language_spoken_at_home_english_only_moe
+        description: Margin of error for the population that speaks only English at home.
+      - name: language_spoken_at_home_spanish
+        description: Population that speaks Spanish at home.
+      - name: language_spoken_at_home_spanish_moe
+        description: Margin of error for the population that speaks Spanish at home.
+      - name: language_spoken_at_home_spanish_english_very_well
+        description: Population that speaks Spanish and English very well at home.
+      - name: language_spoken_at_home_spanish_english_very_well_moe
+        description: Margin of error for the population that speaks Spanish and English very well at home.
+      - name: language_spoken_at_home_spanish_less_english_very_well
+        description: Population that speaks Spanish and less English very well at home.
+      - name: language_spoken_at_home_spanish_less_english_very_well_moe
+        description: Margin of error for the population that speaks Spanish and less English very well at home.
+      - name: language_spoken_at_home_french_cajun
+        description: Population that speaks French (Cajun) at home.
+      - name: language_spoken_at_home_french_cajun_moe
+        description: Margin of error for the population that speaks French (Cajun) at home.
+      - name: poverty_status_total
+        description: Total population for poverty status.
+      - name: poverty_status_total_moe
+        description: Margin of error for the total population for poverty status.
+      - name: poverty_status_income_below_poverty
+        description: Population with income below poverty level.
+      - name: poverty_status_income_below_poverty_moe
+        description: Margin of error for the population with income below poverty level.
+      - name: poverty_status_male_below_poverty
+        description: Male population with income below poverty level.
+      - name: poverty_status_male_below_poverty_moe
+        description: Margin of error for the male population with income below poverty level.
+      - name: poverty_status_male_under_5_below_poverty
+        description: Male population under 5 years old with income below poverty level.
+      - name: poverty_status_male_under_5_below_poverty_moe
+        description: Margin of error for the male population under 5 years old with income below poverty level.
+      - name: poverty_status_male_5_below_poverty
+        description: Male population aged 5 with income below poverty level.
+      - name: poverty_status_male_5_below_poverty_moe
+        description: Margin of error for the male population aged 5 with income below poverty level.
+      - name: poverty_status_male_6_to_11_below_poverty
+        description: Male population aged 6 to 11 with income below poverty level.
+      - name: poverty_status_male_6_to_11_below_poverty_moe
+        description: Margin of error for the male population aged 6 to 11 with income below poverty level.
+      - name: poverty_status_male_12_to_14_below_poverty
+        description: Male population aged 12 to 14 with income below poverty level.
+      - name: poverty_status_male_12_to_14_below_poverty_moe
+        description: Margin of error for the male population aged 12 to 14 with income below poverty level.
+      - name: poverty_status_male_15_below_poverty
+        description: Male population aged 15 with income below poverty level.
+      - name: poverty_status_male_15_below_poverty_moe
+        description: Margin of error for the male population aged 15 with income below poverty level.
+      - name: poverty_status_male_16_to_17_below_poverty
+        description: Male population aged 16 to 17 with income below poverty level.
+      - name: poverty_status_male_16_to_17_below_poverty_moe
+        description: Margin of error for the male population aged 16 to 17 with income below poverty level.
+      - name: disability_status_total
+        description: Total population for disability status.
+      - name: disability_status_total_moe
+        description: Margin of error for the total population for disability status.
+      - name: disability_status_male
+        description: Male population with disability.
+      - name: disability_status_male_moe
+        description: Margin of error for the male population with disability.
+      - name: disability_status_male_under_5
+        description: Male population under 5 years old with disability.
+      - name: disability_status_male_under_5_moe
+        description: Margin of error for the male population under 5 years old with disability.
+      - name: disability_status_male_under_5_with_disability
+        description: Male population under 5 years old with disability status.
+      - name: disability_status_male_under_5_with_disability_moe
+        description: Margin of error for the male population under 5 years old with disability status.
+      - name: disability_status_male_under_5_no_disability
+        description: Male population under 5 years old with no disability.
+      - name: disability_status_male_under_5_no_disability_moe
+        description: Margin of error for the male population under 5 years old with no disability.
+      - name: disability_status_male_5_to_17
+        description: Male population aged 5 to 17 with disability.
+      - name: disability_status_male_5_to_17_moe
+        description: Margin of error for the male population aged 5 to 17 with disability.
+      - name: disability_status_male_5_to_17_with_disability
+        description: Male population aged 5 to 17 with disability status.
+      - name: disability_status_male_5_to_17_with_disability_moe
+        description: Margin of error for the male population aged 5 to 17 with disability status.
+      - name: disability_status_male_5_to_17_no_disability
+        description: Male population aged 5 to 17 with no disability.
+      - name: disability_status_male_5_to_17_no_disability_moe
+        description: Margin of error for the male population aged 5 to 17 with no disability.
+      - name: disability_status_male_18_to_34
+        description: Male population aged 18 to 34 with disability.
+      - name: disability_status_male_18_to_34_moe
+        description: Margin of error for the male population aged 18 to 34 with disability.
+      - name: hh_income_total
+        description: Total household income.
+      - name: hh_income_total_moe
+        description: Margin of error for the total household income.
+      - name: hh_income_less_10k
+        description: Household income less than $10,000.
+      - name: hh_income_less_10k_moe
+        description: Margin of error for the household income less than $10,000.
+      - name: hh_income_10k_to_14K
+        description: Household income $10,000 to $14,999.
+      - name: hh_income_10k_to_14K_moe
+        description: Margin of error for the household income $10,000 to $14,999.
+      - name: hh_income_15k_to_19k
+        description: Household income $15,000 to $19,999.
+      - name: hh_income_15k_to_19k_moe
+        description: Margin of error for the household income $15,000 to $19,999.
+      - name: hh_income_20k_to_24k
+        description: Household income $20,000 to $24,999.
+      - name: hh_income_20k_to_24k_moe
+        description: Margin of error for the household income $20,000 to $24,999.
+      - name: hh_income_25k_to_29k
+        description: Household income $25,000 to $29,999.
+      - name: hh_income_25k_to_29k_moe
+        description: Margin of error for the household income $25,000 to $29,999.
+      - name: hh_income_30k_to_34k
+        description: Household income $30,000 to $34,999.
+      - name: hh_income_30k_to_34k_moe
+        description: Margin of error for the household income $30,000 to $34,999.
+      - name: hh_income_35k_to_39k
+        description: Household income $35,000 to $39,999.
+      - name: hh_income_35k_to_39k_moe
+        description: Margin of error for the household income $35,000 to $39,999.
+      - name: hh_income_40k_to_44k
+        description: Household income $40,000 to $44,999.
+      - name: hh_income_40k_to_44k_moe
+        description: Margin of error for the household income $40,000 to $44,999.
+      - name: hh_income_45k_to_49k
+        description: Household income $45,000 to $49,999.
+      - name: hh_income_45k_to_49k_moe
+        description: Margin of error for the household income $45,000 to $49,999.
+      - name: hh_income_50k_to_59k
+        description: Household income $50,000 to $59,999.
+      - name: hh_income_50k_to_59k_moe
+        description: Margin of error for the household income $50,000 to $59,999.
+      - name: hh_income_60k_to_74k
+        description: Household income $60,000 to $74,999.
+      - name: hh_income_60k_to_74k_moe
+        description: Margin of error for the household income $60,000 to $74,999.
+      - name: hh_income_75k_to_99k
+        description: Household income $75,000 to $99,999.
+      - name: hh_income_75k_to_99k_moe
+        description: Margin of error for the household income $75,000 to $99,999.
+      - name: hh_income_100k_to_124k
+        description: Household income $100,000 to $124,999.
+      - name: hh_income_100k_to_124k_moe
+        description: Margin of error for the household income $100,000 to $124,999.
+      - name: hh_income_125k_to_149k
+        description: Household income $125,000 to $149,999.
+      - name: hh_income_125k_to_149k_moe
+        description: Margin of error for the household income $125,000 to $149,999.
+      - name: hh_income_150k_to_199k
+        description: Household income $150,000 to $199,999.
+      - name: hh_income_150k_to_199k_moe
+        description: Margin of error for the household income $150,000 to $199,999.
+      - name: hh_income_200k_or_more
+        description: Household income $200          ,000 or more.
+      - name: hh_income_200k_or_more_moe
+        description: Margin of error for the household income $200,000 or more.
+      - name: median_hh_income_2015
+        description: Median household income in 2015.
+      - name: median_hh_income_2015_moe
+        description: Margin of error for the median household income in 2015.
+      - name: aggregate_hh_income_2011
+        description: Aggregate household income in 2011.
+      - name: aggregate_hh_income_2011_moe
+        description: Margin of error for the aggregate household income in 2011.
+      - name: social_security_income_total
+        description: Total social security income.
+      - name: social_security_income_total_moe
+        description: Margin of error for the total social security income.
+      - name: ssi_income_total
+        description: Total supplementary security income (SSI).
+      - name: ssi_income_total_moe
+        description: Margin of error for the total supplementary security income (SSI).
+      - name: public_assistance_income_total
+        description: Total public assistance income.
+      - name: public_assistance_income_total_moe
+        description: Margin of error for the total public assistance income.
+      - name: food_stamps_snap_income_total
+        description: Total food stamps/SNAP income.
+      - name: food_stamps_snap_income_total_moe
+        description: Margin of error for the total food stamps/SNAP income.
+      - name: family_income_total
+        description: Total family income.
+      - name: family_income_total_moe
+        description: Margin of error for the total family income.
+      - name: median_family_income_2019
+        description: Median family income in 2019.
+      - name: median_family_income_2019_moe
+        description: Margin of error for the median family income in 2019.
+      - name: aggregate_family_income_2017
+        description: Aggregate family income in 2017.
+      - name: aggregate_family_income_2017_moe
+        description: Margin of error for the aggregate family income in 2017.
+      - name: nonfamily_income_total
+        description: Total nonfamily income.
+      - name: nonfamily_income_total_moe
+        description: Margin of error for the total nonfamily income.
+      - name: median_nonfamily_income_2010
+        description: Median nonfamily income in 2010.
+      - name: median_nonfamily_income_2010_moe
+        description: Margin of error for the median nonfamily income in 2010.
+      - name: aggregate_nonfamily_income_2022
+        description: Aggregate nonfamily income in 2022.
+      - name: aggregate_nonfamily_income_2022_moe
+        description: Margin of error for the aggregate nonfamily income in 2022.
+      - name: per_capita_income_2014
+        description: Per capita income in 2014.
+      - name: per_capita_income_2014_moe
+        description: Margin of error for the per capita income in 2014.
+      - name: earnings_total_2017
+        description: Total earnings in 2017.
+      - name: earnings_total_2017_moe
+        description: Margin of error for the total earnings in 2017.
+      - name: median_earnings_2010
+        description: Median earnings in 2010.
+      - name: median_earnings_2010_moe
+        description: Margin of error for the median earnings in 2010.
+      - name: employment_status_total
+        description: Total employment status.
+      - name: employment_status_total_moe
+        description: Margin of error for the total employment status.
+      - name: employment_male
+        description: Total male employment status.
+      - name: employment_male_moe
+        description: Margin of error for the total male employment status.
+      - name: employment_male_16_to_19
+        description: Male employment status for ages 16 to 19.
+      - name: employment_male_16_to_19_moe
+        description: Margin of error for the male employment status for ages 16 to 19.
+      - name: employment_male_16_to_19_in_labor_force
+        description: Male labor force status for ages 16 to 19.
+      - name: employment_male_16_to_19_in_labor_force_moe
+        description: Margin of error for the male labor force status for ages 16 to 19.
+      - name: employment_male_16_to_19_in_armed_forces
+        description: Male armed forces status for ages 16 to 19.
+      - name: employment_male_16_to_19_in_armed_forces_moe
+        description: Margin of error for the male armed forces status for ages 16 to 19.
+      - name: employment_male_16_to_19_civilian
+        description: Male civilian employment status for ages 16 to 19.
+      - name: employment_male_16_to_19_civilian_moe
+        description: Margin of error for the male civilian employment status for ages 16 to 19.
+      - name: employment_male_16_to_19_employed
+        description: Male employment status for ages 16 to 19.
+      - name: employment_male_16_to_19_employed_moe
+        description: Margin of error for the male employment status for ages 16 to 19.
+      - name: employment_total_16_plus
+        description: Total employment status for ages 16 and over.
+      - name: employment_total_16_plus_moe
+        description: Margin of error for the total employment status for ages 16 and over.
+      - name: employment_in_labor_force
+        description: Total labor force status.
+      - name: employment_in_labor_force_moe
+        description: Margin of error for the total labor force status.
+      - name: employment_civilian_labor_force
+        description: Total civilian labor force status.
+      - name: employment_civilian_labor_force_moe
+        description: Margin of error for the total civilian labor force status.
+      - name: employment_employed
+        description: Total employed status.
+      - name: employment_employed_moe
+        description: Margin of error for the total employed status.
+      - name: employment_unemployed
+        description: Total unemployed status.
+      - name: employment_unemployed_moe
+        description: Margin of error for the total unemployed status.
+      - name: employment_armed_forces
+        description: Total armed forces status.
+      - name: employment_armed_forces_moe
+        description: Margin of error for the total armed forces status.
+      - name: employment_not_in_labor_force
+        description: Total population not in labor force.
+      - name: employment_not_in_labor_force_moe
+        description: Margin of error for the total population not in labor force.
+      - name: tenure_total
+        description: Total tenure.
+      - name: tenure_total_moe
+        description: Margin of error for the total tenure.
+      - name: tenure_owner_occupied
+        description: Total owner-occupied tenure.
+      - name: tenure_owner_occupied_moe
+        description: Margin of error for the total owner-occupied tenure.
+      - name: tenure_renter_occupied
+        description: Total renter-occupied tenure.
+      - name: tenure_renter_occupied_moe
+        description: Margin of error for the total renter-occupied tenure.
+      - name: median_contract_rent
+        description: Median contract rent.
+      - name: median_contract_rent_moe
+        description: Margin of error for the median contract rent.
+      - name: rent_asked_total
+        description: Total rent asked.
+      - name: rent_asked_total_moe
+        description: Margin of error for the total rent asked.
+      - name: median_gross_rent
+        description: Median gross rent.
+      - name: median_gross_rent_moe
+        description: Margin of error for the median gross rent.
+      - name: health_insurance_total
+        description: Total population with health insurance.
+      - name: health_insurance_total_moe
+        description: Margin of error for the total population with health insurance.
+      - name: health_insurance_male
+        description: Total male population with health insurance.
+      - name: health_insurance_male_moe
+        description: Margin of error for the total male population with health insurance.
+      - name: health_insurance_male_under_6
+        description: Male population under 6 years old with health insurance.
+      - name: health_insurance_male_under_6_moe
+        description: Margin of error for the male population under 6 years old with health insurance.
+      - name: health_insurance_male _under_6_with_insurance
+        description: Male population under 6 years old with health insurance.
+      - name: health_insurance_male_under_6_with_insurance_moe
+        description: Margin of error for the male population under 6 years old with health insurance.
+      - name: health_insurance_male_under_6_no_insurance
+        description: Male population under 6 years old with no health insurance.
+      - name: health_insurance_male_under_6_no_insurance_moe
+        description: Margin of error for the male population under 6 years old with no health insurance.
+      - name: occupation_total
+        description: Total population by occupation.
+      - name: occupation_total_moe
+        description: Margin of error for the total population by occupation.
+      - name: occupation_total_male
+        description: Total male population by occupation.
+      - name: occupation_total_male_moe
+        description: Margin of error for the total male population by occupation.
+      - name: occupation_male_management_business_science_arts
+        description: Male population in management, business, science, and arts occupations.
+      - name: occupation_male_management_business_science_arts_moe
+        description: Margin of error for the male population in management, business, science, and arts occupations.
+      - name: occupation_male_management_business_financial
+        description: Male population in management and business financial occupations.
+      - name: occupation_male_management_business_financial_moe
+        description: Margin of error for the male population in management and business financial occupations.
+      - name: occupation_male_management_financial
+        description: Male population in management financial occupations.
+      - name: occupation_male_management_financial_moe
+        description: Margin of error for the male population in management financial occupations.
+      - name: occupation_male_business_financial_operations
+        description: Male population in business and financial operations occupations.
+      - name: occupation_male_business_financial_operations_moe
+        description: Margin of error for the male population in business and financial operations occupations.
+      - name: occupation_male_computer_engineering_science
+        description: Male population in computer, engineering, and science occupations.
+      - name: occupation_male_computer_engineering_science_moe
+        description: Margin of error for the male population in computer, engineering, and science occupations.
+      - name: occupation_male_computer_mathematical
+        description: Male population in computer and mathematical occupations.
+      - name: occupation_male_computer_mathematical_moe
+        description: Margin of error for the male population in computer and mathematical occupations.
+      - name: occupation_male_architecture_engineering
+        description: Male population in architecture and engineering occupations.
+      - name: occupation_male_architecture_engineering_moe
+        description: Margin of error for the male population in architecture and engineering occupations.
+      - name: occupation_male_life_physical_science
+        description: Male population in life and physical science occupations.
+      - name: occupation_male_life_physical_science_moe
+        description: Margin of error for the male population in life and physical science occupations.
+      - name: occupation_male_education_legal_media
+        description: Male population in education, legal, and media occupations.
+      - name: occupation_male_education_legal_media_moe
+        description: Margin of error for the male population in education, legal, and media occupations.
+      - name: occupation_male_community_service
+        description: Male population in community service occupations.
+      - name: occupation_male_community_service_moe
+        description: Margin of error for the male population in community service occupations.
+      - name: occupation_male_education_training_library
+        description: Male population in education, training, and library occupations.
+      - name: occupation_male_education_training_library_moe
+        description: Margin of error for the male population in education, training, and library occupations.
+      - name: occupation_male_education_media
+        description: Male population in education and media occupations.
+      - name: occupation_male_education_media_moe
+        description: Margin of error for the male population in education and media occupations.
+      - name: industry_total
+        description: Total population by industry.
+      - name: industry_total_moe
+        description: Margin of error for the total population by industry.
+      - name: industry_total_male
+        description: Total male population by industry.
+      - name: industry_total_male_moe
+        description: Margin of error for the total male population by industry.
+      - name: industry_male_agriculture_mining
+        description: Male population in agriculture and mining industries.
+      - name: industry_male_agriculture_mining_moe
+        description: Margin of error for the male population in agriculture and mining industries.
+      - name: year
+        description: Year of the data.
