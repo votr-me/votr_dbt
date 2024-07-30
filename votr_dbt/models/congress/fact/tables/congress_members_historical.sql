@@ -22,7 +22,7 @@ WITH member_bio_info AS (
             WHEN member_type = 'sen' THEN 'Senator'
             ELSE NULL
         END AS member_title,
-        depication_image_url,
+        depiction_image_url,
         depiction_attribution
     FROM {{ ref('dim_congress_member_historical') }}
 ),
@@ -81,7 +81,7 @@ SELECT
     bio.member_district,
     bio.member_type,
     bio.member_title,
-    bio.depication_image_url,
+    bio.depiction_image_url,
     bio.depiction_attribution,
     contact.address,
     contact.office_phone_number,
