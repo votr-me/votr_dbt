@@ -18,5 +18,5 @@ select
     member_party,
     is_current_member,
     depiction_attribution,
-    depication_image_url
+    depiction_image_url
 from {{ ref('stg_congress_member') }}

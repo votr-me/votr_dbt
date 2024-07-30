@@ -22,7 +22,7 @@ with base as (
                 regexp_replace(regexp_replace("depiction_attribution", '.*<a href=.*">', ''), '</a>.*', '')
             else "depiction_attribution"
         end as depiction_attribution,
-        "depiction_imageUrl" as depication_image_url
+        "depiction_imageUrl" as depiction_image_url
     from {{ source('raw', 'congress_members') }}
 )
 

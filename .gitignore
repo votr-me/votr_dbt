@@ -1,5 +1,26 @@
-
-target/
+# dbt-specific files and folders
 dbt_packages/
-logs/*
-*.log
+logs/
+target/
+dbt_project.yml.lock
+
+# Python specific
+*.pyc
+__pycache__/
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# macOS specific
+.DS_Store
+
+# Visual Studio Code specific
+.vscode/
+
+# PyCharm specific
+.idea/
+
+# System files
+Thumbs.db
+
+.vscode
