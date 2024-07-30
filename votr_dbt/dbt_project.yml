@@ -77,6 +77,10 @@ models:
       +materialized: table
     votes:
       +materialized: table
+    census:
+      +materialized: table
+      
+        
 
 # models:
 #   votr_dbt:

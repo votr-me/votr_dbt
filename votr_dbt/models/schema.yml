@@ -600,10 +600,6 @@ models:
         description: Household income $200          ,000 or more.
       - name: hh_income_200k_or_more_moe
         description: Margin of error for the household income $200,000 or more.
-      - name: median_hh_income_2015
-        description: Median household income in 2015.
-      - name: median_hh_income_2015_moe
-        description: Margin of error for the median household income in 2015.
       - name: aggregate_hh_income_2011
         description: Aggregate household income in 2011.
       - name: aggregate_hh_income_2011_moe
@@ -664,29 +660,6 @@ models:
         description: Total employment status.
       - name: employment_status_total_moe
         description: Margin of error for the total employment status.
-      - name: employment_male
-        description: Total male employment status.
-      - name: employment_male_moe
-        description: Margin of error for the total male employment status.
-      - name: employment_male_16_to_19
-        description: Male employment status for ages 16 to 19.
-      - name: employment_male_16_to_19_moe
-        description: Margin of error for the male employment status for ages 16 to 19.
-      - name: employment_male_16_to_19_in_labor_force
-        description: Male labor force status for ages 16 to 19.
-      - name: employment_male_16_to_19_in_labor_force_moe
-        description: Margin of error for the male labor force status for ages 16 to 19.
-      - name: employment_male_16_to_19_in_armed_forces
-        description: Male armed forces status for ages 16 to 19.
-      - name: employment_male_16_to_19_in_armed_forces_moe
-        description: Margin of error for the male armed forces status for ages 16 to 19.
-      - name: employment_male_16_to_19_civilian
-        description: Male civilian employment status for ages 16 to 19.
-      - name: employment_male_16_to_19_civilian_moe
-        description: Margin of error for the male civilian employment status for ages 16 to 19.
-      - name: employment_male_16_to_19_employed
-        description: Male employment status for ages 16 to 19.
-      - name: employment_male_16_to_19_employed_moe
         description: Margin of error for the male employment status for ages 16 to 19.
       - name: employment_total_16_plus
         description: Total employment status for ages 16 and over.
