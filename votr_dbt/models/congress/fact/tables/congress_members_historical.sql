@@ -23,7 +23,8 @@ WITH member_bio_info AS (
             ELSE NULL
         END AS member_title,
         depiction_image_url,
-        depiction_attribution
+        depiction_attribution,
+        leadership_titles
     FROM {{ ref('dim_congress_member_historical') }}
 ),
 
@@ -83,6 +84,7 @@ SELECT
     bio.member_title,
     bio.depiction_image_url,
     bio.depiction_attribution,
+    bio.leadership_titles,
     contact.address,
     contact.office_phone_number,
     contact.contact_form,

@@ -1,5 +1,6 @@
 {{ config(
-    materialized='view'
+    materialized='table',
+    primary_key = 'id'
 ) }}
 
 with cd_employment as (select year,
@@ -46,6 +47,7 @@ with cd_employment as (select year,
                           from public.acs5_state_jobs_historical)
 
 select
+    {{dbt_utils.generate_surrogate_key(['cd_employment.year', 'cd_employment.state_fip', 'cd_employment.congressional_district'])}} as id,
     cd_employment.year,
     cd_employment.state_fip,
     cd_employment.congressional_district,
