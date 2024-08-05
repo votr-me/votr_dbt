@@ -1,5 +1,6 @@
 {{ config(
-    materialized='view'
+    materialized='table',
+    primary_key = 'id'
 ) }}
 
 
@@ -9,6 +10,7 @@ with cd_demographics as (
         congressional_district,
         state_fip,
         'us' as country,
+        'cd' as record_level, 
         sex_total as cd_sex_total,
         sex_male::float / sex_total::float as cd_pct_male,
         sex_male as cd_sex_male,
@@ -39,6 +41,7 @@ state_demographics as (
         year,
         state_fip,
         'us' as country,
+        'state' as record_level, 
         sex_total as state_sex_total,
         sex_male::float / sex_total::float as state_pct_male,
         sex_male as state_sex_male,
@@ -92,6 +95,7 @@ us_demographics as (
 )
 
 select
+    {{dbt_utils.generate_surrogate_key(['cd_demographics.year', 'cd_demographics.state_fip', 'cd_demographics.congressional_district'])}} as id,
     cd_demographics.year,
     cd_demographics.state_fip,
     cd_demographics.congressional_district,

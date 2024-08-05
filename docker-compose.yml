@@ -1,10 +1,11 @@
 services:
   dbt:
-    image: ghcr.io/dbt-labs/dbt-postgres:1.8.2  # Replace with your dbt image name
+    image: ghcr.io/dbt-labs/dbt-postgres:1.8.2  # Your dbt image
     platform: linux/x86_64
     volumes:
-      - ./votr_dbt:/usr/app/votr_dbt  # Ensure this path is correct
-      - ~/.dbt/profiles.yml:/root/.dbt/profiles.yml  # Ensure this path is correct
+      - ./votr_dbt:/usr/app/votr_dbt 
+      - ~/.dbt/profiles.yml:/root/.dbt/profiles.yml 
     working_dir: /usr/app/votr_dbt
-    entrypoint: ["dbt"]
-    command: ["run"]
+    entrypoint: ["/bin/bash"]  # Start a bash shell
+    command: ["-c", "dbt deps && tail -f /dev/null"]  # Run deps then keep container alive
+
