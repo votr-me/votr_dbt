@@ -1,8 +1,9 @@
 {{ config(
-    materialized='table'
+    materialized='table',
+    primary_key = 'id'
 ) }}
-
 SELECT
+    {{dbt_utils.generate_surrogate_key(['year', 'state_fip'])}} as id,
     year,
     state_fip, 
     tenure_total,

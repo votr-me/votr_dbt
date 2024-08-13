@@ -13,7 +13,7 @@ with base as (
         regexp_replace(trim(lower(gender)), '[[:punct:]]', '') as gender,
         regexp_replace(trim(lower(type)), '[[:punct:]]', '') as member_type,
         regexp_replace(trim(upper(state)), '[[:punct:]]', '') as member_state,
-        district as member_district,
+        LPAD(CAST(district AS VARCHAR), 2, '0') AS member_district,
         senate_class as senate_class,
         regexp_replace(trim(upper(party)), '[[:punct:]]', '') as member_party,
         "currentMember"::bool as is_current_member,
