@@ -1,8 +1,10 @@
 {{ config(
-    materialized='table'
+    materialized='table',
+    primary_key='id'
 ) }}
 
 SELECT
+    {{dbt_utils.generate_surrogate_key(['year', 'state_fip', 'congressional_district'])}} as id,
     year,
     state_fip, 
     congressional_district,
