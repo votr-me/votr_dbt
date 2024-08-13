@@ -6,17 +6,17 @@
 with cd_employment as (select year,
                               state_fip,
                               congressional_district,
-                              'us'                                                  as country,
-                              employment_status_total                               as cd_employment_status_total,
-                              in_labor_force                                        as cd_in_labor_force,
-                              in_labor_force::float / employment_status_total       as cd_pct_in_labor_force,
-                              not_in_labor_force                                    as cd_not_in_labor_force,
-                              not_in_labor_force::float / employment_status_total   as cd_pct_not_in_labor_force,
-                              civilian_labor_force                                  as cd_civilian_labor_force,
-                              civilian_labor_force::float / employment_status_total as cd_pct_civilian_labor_force,
-                              civilian_employed                                     as cd_civilian_employed,
-                              civilian_employed::float / employment_status_total    as cd_pct_civilian_employed
-                       from public.acs5_cd_jobs_historical
+                              'us' as country,
+                              employment_status_total as cd_employment_status_total,
+                              in_labor_force as cd_in_labor_force,
+                              pct_in_labor_force as cd_pct_in_labor_force,
+                              not_in_labor_force as cd_not_in_labor_force,
+                              pct_not_in_labor_force as cd_pct_not_in_labor_force,
+                              civilian_labor_force as cd_civilian_labor_force,
+                              pct_civilian_labor_force as cd_pct_civilian_labor_force,
+                              civilian_employed as cd_civilian_employed,
+                              pct_civilian_employed as cd_pct_civilian_employed
+                       from {{ ref('acs5_cd_employment_historical')}}
                        where congressional_district != 'ZZ'),
 
      us_employment as (select year,
@@ -30,7 +30,8 @@ with cd_employment as (select year,
                               civilian_labor_force::float / employment_status_total as us_pct_civilian_labor_force,
                               civilian_employed                                     as us_civilian_employed,
                               civilian_employed::float / employment_status_total    as us_pct_civilian_employed
-                       from public.acs5_us_jobs_historical),
+                       from {{ ref('acs5_us_employment_historical') }}
+     ),
 
      state_employment as (select year,
                                  state_fip,
@@ -44,8 +45,8 @@ with cd_employment as (select year,
                                  civilian_labor_force::float / employment_status_total as state_pct_civilian_labor_force,
                                  civilian_employed                                     as state_civilian_employed,
                                  civilian_employed::float / employment_status_total    as state_pct_civilian_employed
-                          from public.acs5_state_jobs_historical)
-
+                          from {{ ref('acs5_state_employment_historical') }}
+                          )
 select
     {{dbt_utils.generate_surrogate_key(['cd_employment.year', 'cd_employment.state_fip', 'cd_employment.congressional_district'])}} as id,
     cd_employment.year,
