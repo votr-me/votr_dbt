@@ -9,14 +9,14 @@ with member_terms as (
         district::float::int::text as district,
         "startYear"::float::int as start_year,
         "endYear"::float::int as end_year
-    from {{ source('raw', 'congress_member_terms') }}
+    from {{ source('raw', 'legislator_terms') }}
 ),
 
 current_members as (
     select
         "bioguideId" as bioguide_id,
         "currentMember" as is_current_member
-    from {{ source('raw', 'congress_members') }}
+    from {{ source('raw', 'legislators') }}
 )
 
 select

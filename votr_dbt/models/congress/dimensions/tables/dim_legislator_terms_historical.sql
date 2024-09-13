@@ -16,4 +16,4 @@ select
     district,
     start_year,
     end_year
-from {{ ref('stg_congress_member_terms') }}
+from {{ ref('stg_legislator_terms') }}

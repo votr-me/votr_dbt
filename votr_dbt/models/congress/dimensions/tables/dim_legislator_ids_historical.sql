@@ -1,4 +1,4 @@
--- models/dimensions/congress/dim_congress_member_ids_historical.sql
+-- models/dimensions/congress/dim_legislator_ids_historical.sql
 
 {{ config(
     materialized='table'
@@ -18,4 +18,4 @@ select
     icpsr_id,
     wikipedia_id,
     fec_id  -- Use the split and unnested FEC ID
-from {{ ref('stg_congress_member_ids') }}
+from {{ ref('stg_legislator_ids') }}
