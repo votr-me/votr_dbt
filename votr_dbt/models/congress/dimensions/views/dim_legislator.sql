@@ -4,5 +4,5 @@
 ) }}
 
     select *
-    from {{ ref('dim_congress_member_historical') }}
+    from {{ ref('dim_legislator_historical') }}
     where is_current_member

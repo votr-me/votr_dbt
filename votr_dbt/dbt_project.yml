@@ -24,54 +24,54 @@ models:
     staging:
       +schema: staging  # Set the schema for the staging directory
       +materialized: table
-      stg_congress_member_contact_info:
+      stg_legislator_contact_info:
         +materialized: table
-      stg_congress_member_ids:
+      stg_legislator_ids:
         +materialized: table
-      stg_congress_member_leadership:
+      stg_legislator_leadership:
         +materialized: table
-      stg_congress_member_social_media:
+      stg_legislator_social_media:
         +materialized: table
-      stg_congress_member:
+      stg_legislator:
         +materialized: table
-      stg_congress_member_terms:
+      stg_legislator_terms:
         +materialized: table
     congress:  # Set the schema for the congress directory
       dimensions:
         tables:
           +materialized: table
-          dim_congress_member_contact_info_historical:
+          dim_legislator_contact_info_historical:
             +materialized: table
-          dim_congress_member_historical:
+          dim_legislator_historical:
             +materialized: table
-          dim_congress_member_ids_historical:
+          dim_legislator_ids_historical:
             +materialized: table
-          dim_congress_member_leadership_historical:
+          dim_legislator_leadership_historical:
             +materialized: table
-          dim_congress_member_social_media_historical:
+          dim_legislator_social_media_historical:
             +materialized: table
-          dim_congress_member_terms_historical:
+          dim_legislator_terms_historical:
             +materialized: table
         views:
           +materialized: view
-          dim_congress_member_contact_info:
+          dim_legislator_contact_info:
             +materialized: view
-          dim_congress_member_ids:
+          dim_legislator_ids:
             +materialized: view
-          dim_congress_member_leadership:
+          dim_legislator_leadership:
             +materialized: view
-          dim_congress_member_social_media:
+          dim_legislator_social_media:
             +materialized: view
-          dim_congress_member:
+          dim_legislator:
             +materialized: view
       fact:
         tables:
           +materialized: table
-          congress_member_legislation_activity_historical:
+          legislator_legislation_activity_historical:
             +materialized:table
         views:
           +materialized: view
-          congress_member_legislation_activity_latest:
+          legislator_legislation_activity_latest:
             +materialized: view
     bills:
       +materialized: table
@@ -81,52 +81,3 @@ models:
       +materialized: table
       
         
-
-# models:
-#   votr_dbt:
-#     staging:
-#       +schema: staging  # Set the schema for the staging directory
-#       +materialized: table
-#       stg_congress_member_contact_info:
-#         +materialized: table
-#       stg_congress_member_ids:
-#         +materialized: table
-#       stg_congress_member_leadership:
-#         +materialized: table
-#       stg_congress_member_social_media:
-#         +materialized: table
-#       stg_congress_member:
-#         +materialized: table
-#     congress:
-#       +materialized: table
-#       dimensions:
-#         +materialized: table
-#         dim_congress_member_ids_historical:
-#           +materialized: table
-#         dim_congress_member_ids:
-#           +materialized: table
-#         dim_congress_member_leadership_historical:
-#           +materialized: table
-#         dim_congress_member_leadership:
-#           +materialized: table
-#         dim_member_contact_info_historical:
-#           +materialized: table
-#         dim_member_historical:
-#           +materialized: table
-#         dim_member_social_media_historical:
-#           +materialized: table
-#         dim_member_social_media:
-#           +materialized: table
-#         dim_member:
-#           +materialized: view
-#         dim_member_contact_info:
-#           +materialized: view
-#         dim_congress_member_ids:
-#           +materialized: view
-#         dim_member_social_media:
-#           +materialized: view
-#     bills:
-#       +materialized: table
-#     votes:
-#       +materialized: table
-      

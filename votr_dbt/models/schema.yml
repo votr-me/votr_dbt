@@ -4,9 +4,9 @@ sources:
   - name: raw
     schema: raw
     tables:
-      - name: congress_members
+      - name: legislators
       - name: congress_leadership
-      - name: congress_member_terms
+      - name: legislator_terms
       - name: bill_info
       - name: bill_sponsors
       - name: bill_details
@@ -16,7 +16,7 @@ sources:
       - name: acs5_congressional_district
 
 models:
-  - name: dim_congress_member_ids_historical
+  - name: dim_legislator_ids_historical
     description: "Historical table for congress members' various IDs."
     columns:
       - name: bioguide_id
@@ -44,7 +44,7 @@ models:
       - name: fec_id
         description: "FEC ID of the member"
 
-  - name: dim_congress_member_ids
+  - name: dim_legislator_ids
     description: "Table for congress members' various IDs."
     columns:
       - name: bioguide_id
@@ -72,7 +72,7 @@ models:
       - name: fec_id
         description: "FEC ID of the member"
 
-  - name: dim_congress_member_leadership_historical
+  - name: dim_legislator_leadership_historical
     description: "Historical table for congress members' leadership positions."
     columns:
       - name: bioguide_id
@@ -84,7 +84,7 @@ models:
       - name: leadership_type
         description: "Type of leadership position"
 
-  - name: dim_congress_member_leadership
+  - name: dim_legislator_leadership
     description: "Table for congress members' leadership positions."
     columns:
       - name: bioguide_id
@@ -96,7 +96,7 @@ models:
       - name: leadership_type
         description: "Type of leadership position"
 
-  - name: dim_congress_member_contact_info_historical
+  - name: dim_legislator_contact_info_historical
     description: "Historical table for congress members' contact information."
     columns:
       - name: bioguide_id
@@ -118,7 +118,7 @@ models:
       - name: official_website_url
         description: "Official website URL of the member"
 
-  - name: dim_congress_member_historical
+  - name: dim_legislator_historical
     description: "Historical table for congress members, including biographical information, party affiliation, and other relevant details."
     columns:
       - name: bioguide_id
@@ -156,7 +156,7 @@ models:
       - name: depiction_image_url
         description: "URL of the member's depiction image"
 
-  - name: dim_congress_member_social_media_historical
+  - name: dim_legislator_social_media_historical
     description: "Historical table for congress members' social media details."
     columns:
       - name: bioguide_id
@@ -178,7 +178,7 @@ models:
       - name: mastodon
         description: "Mastodon handle of the member"
 
-  - name: dim_congress_member_social_media
+  - name: dim_legislator_social_media
     description: "Table for congress members' social media details."
     columns:
       - name: bioguide_id
@@ -200,7 +200,7 @@ models:
       - name: mastodon
         description: "Mastodon handle of the member"
   
-  - name: congress_member_legislation_activity_historical
+  - name: legislator_legislation_activity_historical
     description: "Fact table for congress members' legislation counts"
     columns:
       - name: bioguide_id

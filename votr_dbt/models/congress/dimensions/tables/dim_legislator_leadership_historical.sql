@@ -8,4 +8,4 @@ select
     congress,
     is_current,
     leadership_type
-from {{ ref('stg_congress_member_leadership') }}
+from {{ ref('stg_legislator_leadership') }}

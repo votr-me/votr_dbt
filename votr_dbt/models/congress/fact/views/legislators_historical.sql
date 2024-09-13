@@ -25,7 +25,7 @@ WITH member_bio_info AS (
         depiction_image_url,
         depiction_attribution,
         leadership_titles
-    FROM {{ ref('dim_congress_member_historical') }}
+    FROM {{ ref('dim_legislator_historical') }}
 ),
 
 contact_info AS (
@@ -38,7 +38,7 @@ contact_info AS (
         office_city,
         office_zipcode,
         official_website_url
-    FROM {{ ref('dim_congress_member_contact_info_historical') }}
+    FROM {{ ref('dim_legislator_contact_info_historical') }}
 ),
 
 social_ids AS (
@@ -54,7 +54,7 @@ social_ids AS (
         icpsr_id,
         wikipedia_id,
         ARRAY_AGG(fec_id) AS fec_ids
-    FROM {{ ref('dim_congress_member_ids_historical') }}
+    FROM {{ ref('dim_legislator_ids_historical') }}
     GROUP BY 
         bioguide_id, 
         is_current_member, 

@@ -9,7 +9,7 @@ with base as (
         youtube,
         youtube_id,
         mastodon
-    from {{ source('raw', 'congress_members') }}
+    from {{ source('raw', 'legislators') }}
 )
 
 select * from base

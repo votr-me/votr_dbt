@@ -5,4 +5,4 @@ select bioguide_id,
     "sponsoredLegislation_url" as sponsored_legislation_url,
     "cosponsoredLegislation_count"::float::int as num_consponsored_legislation,
     "cosponsoredLegislation_url" as cosponsored_legislation_url
-from {{ source('raw', 'congress_members') }}
+from {{ source('raw', 'legislators') }}

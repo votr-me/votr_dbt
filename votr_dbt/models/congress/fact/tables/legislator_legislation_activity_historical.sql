@@ -10,4 +10,4 @@ select
     sponsored_legislation_url,
     num_consponsored_legislation,
     cosponsored_legislation_url
-from {{ ref('stg_congress_member_legislation_activity')}}
+from {{ ref('stg_legislator_legislation_activity')}}

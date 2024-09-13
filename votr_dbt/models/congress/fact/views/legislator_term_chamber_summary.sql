@@ -13,7 +13,7 @@ with term_summary as (
         max(end_year) as last_year_in_chamber,
         max(end_year) - min(start_year) +1 as total_years_served,
         count(distinct congress) as num_congresses_served
-    from {{ ref('stg_congress_member_terms')}}
+    from {{ ref('stg_legislator_terms')}}
     group by bioguide_id, chamber, is_current_member
 )
 

@@ -12,4 +12,4 @@ select
     office_city,
     office_zipcode,
     official_website_url
-from {{ ref('stg_congress_member_contact_info') }}
+from {{ ref('stg_legislator_contact_info') }}

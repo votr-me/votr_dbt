@@ -1,4 +1,4 @@
--- models/staging/stg_congress_member_ids.sql
+-- models/staging/stg_legislator_ids.sql
 
 with base as (
     select
@@ -16,7 +16,7 @@ with base as (
         icpsr_id::float::int::text as icpsr_id,
         wikipedia_id,
         string_to_array(trim(fec_ids), ',') as fec_ids_array  -- Convert the comma-separated string to an array
-    from {{source("raw", 'congress_members')}}
+    from {{source("raw", 'legislators')}}
 ),
 
 unnested as (

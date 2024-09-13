@@ -5,9 +5,8 @@
 
 with current_members as (
     select *
-    from {{ ref('congress_member_legislation_activity_historical') }}
+    from {{ ref('dim_legislator_ids_historical') }}
     where is_current_member
 )
 
-select * 
-from current_members
+select * from current_members

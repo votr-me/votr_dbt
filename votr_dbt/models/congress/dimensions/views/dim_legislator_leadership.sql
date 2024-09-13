@@ -5,8 +5,8 @@
 
 with current_members as (
     select *
-    from {{ ref('dim_congress_member_contact_info_historical') }}
-    where is_current_member
+    from {{ ref('dim_legislator_leadership_historical') }}
+    where is_current
 )
 
 select * from current_members
