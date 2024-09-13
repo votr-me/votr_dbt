@@ -23,7 +23,7 @@ with base as (
             else "depiction_attribution"
         end as depiction_attribution,
         "depiction_imageUrl" as depiction_image_url
-    from {{ source('raw', 'congress_members') }}
+    from {{ source('raw', 'legislators') }}
 )
 
 select * from base

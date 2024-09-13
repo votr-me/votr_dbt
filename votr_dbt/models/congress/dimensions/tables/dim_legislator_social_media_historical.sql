@@ -12,4 +12,4 @@ select
     youtube,
     youtube_id,
     mastodon
-from {{ ref('stg_congress_member_social_media') }}
+from {{ ref('stg_legislator_social_media') }}

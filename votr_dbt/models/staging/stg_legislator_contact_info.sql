@@ -14,7 +14,7 @@ with base as (
                 cast(lpad(regexp_replace(trim("addressInformation_zipCode"), '[^0-9]', ''), 5, '0') as integer)
         end as office_zipcode,
         "officialWebsiteUrl" as official_website_url
-    from {{ source('raw', 'congress_members') }}
+    from {{ source('raw', 'legislators') }}
 )
 
 select * from base

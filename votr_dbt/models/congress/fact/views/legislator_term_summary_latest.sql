@@ -5,5 +5,5 @@
 
 
 select * 
-from {{ref('congress_member_term_chamber_summary')}}
+from {{ref('legislator_term_summary')}}
 where is_current_member
