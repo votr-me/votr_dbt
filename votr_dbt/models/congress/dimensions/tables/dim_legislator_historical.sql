@@ -11,7 +11,6 @@ with congressional_leadership_roles as (
     GROUP BY bioguide_id
 )
 
-
 select 
     legislators.bioguide_id,
     legislators.last_name,
@@ -30,5 +29,5 @@ select
     legislators.depiction_attribution,
     legislators.depiction_image_url,
     congressional_leadership_roles.leadership_titles
-from {{ ref('stg_legislator') }} legislators left join congressional_leadership_roles 
+from {{ ref('stg_legislator') }} legislators LEFT JOIN congressional_leadership_roles 
     on legislators.bioguide_id = congressional_leadership_roles.bioguide_id

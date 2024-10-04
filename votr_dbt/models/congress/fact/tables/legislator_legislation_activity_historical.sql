@@ -8,6 +8,6 @@ select
     is_current_member,
     num_sponsored_legislation,
     sponsored_legislation_url,
-    num_consponsored_legislation,
+    num_cosponsored_legislation,
     cosponsored_legislation_url
 from {{ ref('stg_legislator_legislation_activity')}}
