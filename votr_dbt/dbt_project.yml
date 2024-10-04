@@ -36,6 +36,8 @@ models:
         +materialized: table
       stg_legislator_terms:
         +materialized: table
+      stg_legislator_voting_record:
+        +materialized: table
     congress:  # Set the schema for the congress directory
       dimensions:
         tables:

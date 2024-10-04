@@ -14,6 +14,8 @@ sources:
       - name: acs5_us
       - name: acs5_state
       - name: acs5_congressional_district
+      - name: legislator_voting_record
+      - name: votes_info
 
 models:
   - name: dim_legislator_ids_historical
@@ -209,7 +211,7 @@ models:
         description: "Count of legislation sponsored by the member"
       - name: sponsored_legislation_url
         description: "URL of the sponsored legislation"
-      - name: num_consponsored_legislation
+      - name: num_cosponsored_legislation
         description: "Count of legislation cosponsored by the member"
       - name: cosponsored_legislation_url
         description: "URL of the cosponsored legislation"
