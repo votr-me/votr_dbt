@@ -1,0 +1,12 @@
+votr_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: votr_db
+      user: "{{ env_var('POSTGRES_USER') }}"
+      pass: "{{ env_var('POSTGRES_PASSWORD') }}"
+      port: 5432
+      dbname: "{{ env_var('POSTGRES_DB') }}"
+      schema: public
+      threads: 1

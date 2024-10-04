@@ -17,5 +17,5 @@ select
     washington_post_id,
     icpsr_id,
     wikipedia_id,
-    fec_id  -- Use the split and unnested FEC ID
+    fec_ids
 from {{ ref('stg_legislator_ids') }}

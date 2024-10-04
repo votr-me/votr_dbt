@@ -1,11 +1,23 @@
 services:
-  dbt:
+  votr_dbt:
     image: ghcr.io/dbt-labs/dbt-postgres:1.8.2  # Your dbt image
+    container_name: votr_dbt
     platform: linux/x86_64
     volumes:
       - ./votr_dbt:/usr/app/votr_dbt 
-      - ~/.dbt/profiles.yml:/root/.dbt/profiles.yml 
+      - ./profiles.yml:/root/.dbt/profiles.yml 
     working_dir: /usr/app/votr_dbt
     entrypoint: ["/bin/bash"]  # Start a bash shell
-    command: ["-c", "dbt deps && tail -f /dev/null"]  # Run deps then keep container alive
-
+    command: ["-c", "dbt deps && tail -f /dev/null && dbt build"]  # Run deps then keep container alive
+    networks:
+      - votr-docker-network # Connect to a custom network for communication with other containers
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      
+networks:
+  votr-docker-network: # Give the network a meaningful name
+    external: true 
