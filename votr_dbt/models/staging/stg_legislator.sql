@@ -1,29 +1,42 @@
-with base as (
-    select
+-- File: models/staging/stg_legislators.sql
+
+{{ config(materialized='incremental') }}
+
+WITH base AS (
+
+    SELECT
         bioguide_id,
-        regexp_replace(trim(lower(last_name)), '[[:punct:]]', '') as last_name,
-        regexp_replace(trim(lower(first_name)), '[[:punct:]]', '') as first_name,
-        regexp_replace(trim(lower(middle_name)), '[[:punct:]]', '') as middle_name,
-        regexp_replace(trim(lower(suffix)), '[[:punct:]]', '') as suffix,
-        regexp_replace(trim(lower(nickname)), '[[:punct:]]', '') as nickname,
-        case
-            when trim(birthday) = '' then null
-            else trim(birthday)::Date
-        end as birthday,
-        regexp_replace(trim(lower(gender)), '[[:punct:]]', '') as gender,
-        regexp_replace(trim(lower(type)), '[[:punct:]]', '') as member_type,
-        regexp_replace(trim(upper(state)), '[[:punct:]]', '') as member_state,
+
+        -- Cleaned text fields
+        {{ clean_text('last_name') }} AS last_name,
+        {{ clean_text('first_name') }} AS first_name,
+        {{ clean_text('middle_name') }} AS middle_name,
+        {{ clean_text('suffix') }} AS suffix,
+        {{ clean_text('nickname') }} AS nickname,
+
+        -- Simplify birthday handling
+        NULLIF(trim(birthday), '')::DATE AS birthday,
+
+        {{ clean_text('gender') }} AS gender,
+        {{ clean_text('type') }} AS member_type,
+        {{ clean_text('state', 'upper') }} AS member_state,
         LPAD(CAST(district AS VARCHAR), 2, '0') AS member_district,
-        senate_class as senate_class,
-        regexp_replace(trim(upper(party)), '[[:punct:]]', '') as member_party,
-        "currentMember"::bool as is_current_member,
-        case
-            when "depiction_attribution" like '%<a href=%</a>%' then
-                regexp_replace(regexp_replace("depiction_attribution", '.*<a href=.*">', ''), '</a>.*', '')
-            else "depiction_attribution"
-        end as depiction_attribution,
-        "depiction_imageUrl" as depiction_image_url
-    from {{ source('raw', 'legislators') }}
+        senate_class,
+        {{ clean_text('party', 'upper') }} AS member_party,
+        "currentMember"::BOOLEAN AS is_current_member,
+
+        -- Simplify depiction_attribution extraction
+        CASE
+            WHEN "depiction_attribution" LIKE '%<a href=%</a>%'
+                THEN regexp_replace("depiction_attribution", '.*<a href=.*">(.*)</a>.*', '\1')
+            ELSE "depiction_attribution"
+        END AS depiction_attribution,
+
+        "depiction_imageUrl" AS depiction_image_url
+
+    FROM {{ source('raw', 'legislators') }}
+
 )
 
-select * from base
+SELECT *
+FROM base
