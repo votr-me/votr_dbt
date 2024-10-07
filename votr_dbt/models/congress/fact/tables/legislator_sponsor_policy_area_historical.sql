@@ -6,14 +6,16 @@ with bill_sponsors as (
     select *
     from {{ ref('dim_bill_sponsorships_historical') }}
 ),
+
 bill_info as (
     select *
     from {{ ref('dim_bill_info_historical') }}
 )
+
 select
     bill_sponsors.bioguide_id,
-    CASE WHEN bill_info.policy_area_name is NULL THEN 'None' ELSE bill_info.policy_area_name END AS policy_area_name,
     bill_sponsors.sponsorship_type,
+    coalesce (bill_info.policy_area_name, 'None') as policy_area_name,
     count(distinct bill_info.bill_id) as num_bills_sponsored
 from
     bill_sponsors

@@ -10,19 +10,19 @@ with sponsors as (
 ),
 
 cosponsors as (
-    select 
+    select
         bioguide_id,
         bill_id
     from {{ ref('stg_bill_cosponsors') }}
-    )
+)
 
-select 
+select
     bioguide_id,
     bill_id,
     'cosponsor' as sponsorship_type
 from cosponsors
 union all
-select 
+select
     bioguide_id,
     bill_id,
     'sponsor' as sponsorship_type
