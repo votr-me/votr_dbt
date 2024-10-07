@@ -1,14 +1,15 @@
+{{ config(materialized='incremental') }}
 with bill_info_cte as (
     select
         bill_id,
-        lower(type) as bill_type,
         number::int as bill_number,
         congress::int as congress,
-        lower("originChamber") as origin_chamber,
-        "title" as bill_title,
+        title as bill_title,
         "latestAction.actionDate"::date as latest_action_date,
-        "latestAction.text" as latest_action_text
-    from raw.bill_info
+        "latestAction.text" as latest_action_text,
+        lower(type) as bill_type,
+        lower("originChamber") as origin_chamber
+    from {{ source('raw', 'bill_info') }}
 ),
 
 bill_details_cte as (
@@ -16,7 +17,7 @@ bill_details_cte as (
         bill_id,
         "introducedDate"::date as bill_introduced_date,
         "policyArea.name" as policy_area_name
-    from raw.bill_details
+    from {{ source('raw', 'bill_details') }}
 )
 
 select
@@ -30,10 +31,10 @@ select
     bi.latest_action_text,
     bd.bill_introduced_date,
     bd.policy_area_name
-from bill_info_cte bi
-left join bill_details_cte bd
+from bill_info_cte as bi
+left join bill_details_cte as bd
     on bi.bill_id = bd.bill_id
 order by
     bi.congress desc,
-    bi.bill_type,
+    bi.bill_type asc,
     bi.bill_number desc

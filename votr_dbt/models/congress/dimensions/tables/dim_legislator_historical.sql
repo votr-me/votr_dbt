@@ -4,14 +4,17 @@
 
 
 with congressional_leadership_roles as (
-    SELECT bioguide_id,
-           jsonb_agg(jsonb_build_object(congress::text, leadership_type)) AS leadership_titles
-    FROM {{ ref('stg_legislator_leadership') }}
-    WHERE leadership_type is not null
-    GROUP BY bioguide_id
+    select
+        bioguide_id,
+        jsonb_agg(
+            jsonb_build_object(congress::text, leadership_type)
+        ) as leadership_titles
+    from {{ ref('stg_legislator_leadership') }}
+    where leadership_type is not null
+    group by bioguide_id
 )
 
-select 
+select
     legislators.bioguide_id,
     legislators.last_name,
     legislators.first_name,
@@ -29,5 +32,6 @@ select
     legislators.depiction_attribution,
     legislators.depiction_image_url,
     congressional_leadership_roles.leadership_titles
-from {{ ref('stg_legislator') }} legislators LEFT JOIN congressional_leadership_roles 
+from {{ ref('stg_legislator') }} as legislators
+left join congressional_leadership_roles
     on legislators.bioguide_id = congressional_leadership_roles.bioguide_id

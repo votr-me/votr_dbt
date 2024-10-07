@@ -18,6 +18,50 @@ sources:
       - name: votes_info
 
 models:
+  - name: dim_legislator_voting_record
+    description: "Details voting record for given legislator and result of legislation voted on"
+    columns:
+      - name: bioguide_id
+        description: "Unique identifier for each legislator based on the Biographical Directory of the United States Congress."
+      - name: vote_id
+        description: "Unique identifier for each vote, used to link the legislator's voting record to the specific vote details."
+      - name: vote_type
+        description: "Type of vote cast (e.g., 'Yea', 'Nay', 'Present', etc.) by the legislator."
+      - name: vote_num
+        description: "Sequential number assigned to the vote within the session."
+      - name: vote_session
+        description: "The session of Congress in which the vote took place."
+      - name: congress
+        description: "The specific Congress number in which the vote occurred."
+      - name: legislator_vote
+        description: "The specific vote made by the legislator, indicating their stance on the given motion."
+      - name: category
+        description: "The category or classification of the vote, such as 'Amendment', 'Nomination', or 'Bill'."
+      - name: title
+        description: "A brief title or description of the vote, summarizing its purpose or subject matter."
+      - name: subject
+        description: "The main subject or issue related to the vote."
+      - name: purpose
+        description: "The stated purpose or objective of the vote as presented in the legislative context."
+      - name: question
+        description: "The formal question posed to legislators for this vote."
+      - name: author
+        description: "The individual or entity that introduced the motion, bill, or issue being voted on."
+      - name: date
+        description: "The date when the vote took place."
+      - name: updated_at
+        description: "The timestamp indicating when the voting record was last updated."
+      - name: requires
+        description: "The threshold or requirement needed for the vote to pass (e.g., simple majority, two-thirds)."
+      - name: result
+        description: "The outcome of the vote (e.g., 'Passed', 'Failed')."
+      - name: result_text
+        description: "A textual description of the result, providing more detail than the outcome code."
+      - name: source_url
+        description: "The URL where the detailed information about the vote can be found, providing a reference for further investigation."
+      - name: record_modified
+        description: "The timestamp indicating the last modification of the vote record."
+
   - name: dim_legislator_ids_historical
     description: "Historical table for congress members' various IDs."
     columns:

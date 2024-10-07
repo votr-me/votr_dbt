@@ -1,4 +1,3 @@
-
 {{ config(
     materialized='view'
 ) }}
@@ -9,5 +8,5 @@ with current_members as (
     where is_current_member
 )
 
-select * 
+select *
 from current_members

@@ -1,4 +1,3 @@
-
 {{ config(
     materialized='view'
 ) }}
@@ -17,10 +16,10 @@ with current_congress_bills as (
         policy_area_name
     from {{ ref('dim_bill_info_historical') }}
     where
-    congress = (
-        select max(congress)
-        from {{ ref('dim_bill_info_historical') }}
-    )
+        congress = (
+            select max(congress)
+            from {{ ref('dim_bill_info_historical') }}
+        )
 )
 
 select * from current_congress_bills

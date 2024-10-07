@@ -19,4 +19,6 @@ SELECT
     armed_forces,
     armed_forces_moe
 FROM {{ ref('acs5_us_employment_historical') }}
-WHERE year = (select max(year) as year from {{ ref('acs5_us_employment_historical') }})
+WHERE
+    year
+    = (SELECT max(year) AS year FROM {{ ref('acs5_us_employment_historical') }})

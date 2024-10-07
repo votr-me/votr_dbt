@@ -1,4 +1,3 @@
-
 {{ config(
     materialized='table'
 ) }}
@@ -10,4 +9,4 @@ select
     sponsored_legislation_url,
     num_cosponsored_legislation,
     cosponsored_legislation_url
-from {{ ref('stg_legislator_legislation_activity')}}
+from {{ ref('stg_legislator_legislation_activity') }}
