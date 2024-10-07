@@ -1,5 +1,6 @@
-
-select bioguide_id,
+{{ config(materialized='incremental') }}
+select
+    bioguide_id,
     "currentMember"::bool as is_current_member,
     "sponsoredLegislation_count"::float::int as num_sponsored_legislation,
     "sponsoredLegislation_url" as sponsored_legislation_url,

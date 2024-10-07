@@ -1,4 +1,5 @@
+{{ config(materialized='incremental') }}
 SELECT
-    "bioguideId" as bioguide_id,
+    "bioguideId" AS bioguide_id,
     bill_id
-from {{ source('raw', 'bill_sponsors') }}
+FROM {{ source('raw', 'bill_sponsors') }}

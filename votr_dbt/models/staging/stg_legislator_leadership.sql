@@ -1,5 +1,6 @@
 -- models/staging/stg_congress_leadership.sql
 
+{{ config(materialized='table') }}
 with base as (
     select
         "bioguideId" as bioguide_id,

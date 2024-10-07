@@ -1,5 +1,6 @@
 -- models/staging/stg_legislator_ids.sql
 
+{{ config(materialized='table') }}
 select
     a.bioguide_id,
     coalesce(a.current_member, False) as is_current_member,
@@ -14,5 +15,6 @@ select
     coalesce(b.icpsr_id, a.icpsr_id) as icpsr_id,
     coalesce(b.wikipedia_id, a.wikipedia_id) as wikipedia_id,
     string_to_array(trim(coalesce(b.fec_ids, a.fec_ids)), ',') as fec_ids
-from {{ ref('legislators_ids_10_2_2024') }} b left join {{ source('raw','legislators') }} a
-    on a.bioguide_id = b.bioguide_id
+from {{ ref('legislators_ids_10_2_2024') }} as b
+left join {{ source('raw','legislators') }} as a
+    on b.bioguide_id = a.bioguide_id
