@@ -42,7 +42,6 @@ select
     voting_record.vote_session,
     voting_record.congress,
     voting_record.legislator_vote,
-    vote_info.category,
     vote_info.title,
     vote_info.subject,
     vote_info.purpose,
