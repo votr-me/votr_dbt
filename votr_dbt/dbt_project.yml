@@ -78,7 +78,7 @@ models:
     bills:
       +materialized: table
     votes:
-      +materialized: table
+      +materialized: incremental
     census:
       +materialized: table
       
