@@ -1,0 +1,9 @@
+votr_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: 
+      project: 
+      dataset: 
+      threads: 

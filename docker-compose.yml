@@ -1,23 +1,57 @@
 services:
   votr_dbt:
-    image: ghcr.io/dbt-labs/dbt-postgres:1.8.2  # Your dbt image
+    image: ghcr.io/dbt-labs/dbt-bigquery:1.8.2
     container_name: votr_dbt
     platform: linux/x86_64
     volumes:
-      - ./votr_dbt:/usr/app/votr_dbt 
-      - ./profiles.yml:/root/.dbt/profiles.yml 
+      - ./votr_dbt:/usr/app/votr_dbt
+      - ./profiles.yml:/root/.dbt/profiles.yml
+      - ~/.config/gcloud:/root/.config/gcloud:ro  # Mount gcloud credentials
+      - ~/.config/gcloud/application_default_credentials.json:/root/.config/gcloud/application_default_credentials.json:ro  # Mount ADC credentials
     working_dir: /usr/app/votr_dbt
-    entrypoint: ["/bin/bash"]  # Start a bash shell
-    command: ["-c", "dbt deps && tail -f /dev/null && dbt build"]  # Run deps then keep container alive
-    networks:
-      - votr-docker-network # Connect to a custom network for communication with other containers
-    env_file:
-      - .env
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      
+      - DBT_PROFILES_DIR=/root/.dbt
+      - GOOGLE_APPLICATION_CREDENTIALS=/root/.config/gcloud/application_default_credentials.json
+      - GOOGLE_CLOUD_PROJECT=votr-dev-430215  # Replace with your project ID
+      - CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=/root/.config/gcloud/application_default_credentials.json
+    entrypoint: ["/bin/bash"]
+    command: 
+      - "-c"
+      - |
+        if [ ! -f /root/.config/gcloud/application_default_credentials.json ]; then
+          echo "ERROR: Google Cloud credentials not found. Please run 'gcloud auth application-default login' on your host machine."
+          exit 1
+        fi
+        dbt deps && dbt debug && tail -f /dev/null
+    networks:
+      - votr-docker-network
+
 networks:
-  votr-docker-network: # Give the network a meaningful name
-    external: true 
+  votr-docker-network:
+    external: true
+#   votr_dbt:
+#     image: ghcr.io/dbt-labs/dbt-postgres:1.8.2  # Your dbt image
+#     container_name: votr_dbt
+#     platform: linux/x86_64
+#     volumes:
+#       - ./votr_dbt:/usr/app/votr_dbt 
+#       - ./profiles.yml:/root/.dbt/profiles.yml 
+#     working_dir: /usr/app/votr_dbt
+#     entrypoint: ["/bin/bash"]  # Start a bash shell
+#     command: ["-c", "dbt deps && tail -f /dev/null && dbt build"]  # Run deps then keep container alive
+#     networks:
+#       - votr-docker-network # Connect to a custom network for communication with other containers
+#     env_file:
+#       - .env
+#     environment:
+#       - POSTGRES_USER=${POSTGRES_USER}
+#       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+#       - POSTGRES_DB=${POSTGRES_DB}
+      
+# networks:
+#   votr-docker-network: # Give the network a meaningful name
+#     external: true 
+
+# gcloud auth print-identity-token \
+#   --impersonate-service-account=dbt-bigquery-sa@votr-dev-430215.iam.gserviceaccount.com \
+#   --audiences=//iam.googleapis.com/projects/294324984358/locations/global/workloadIdentityPools/dbt-local-oidc/providers/google-workspace > ./oidc_token.txt

@@ -1,11 +1,11 @@
 {{ config(materialized='table') }}
 with base as (
-    select
+        select
         bioguide_id,
-        current_member as is_current_member,
+        current_member AS is_current_member,
         rss_url,
         twitter,
-        twitter_id::float::bigint::text as twitter_id,
+        CAST(twitter_id AS STRING) AS twitter_id,
         facebook,
         youtube,
         youtube_id,
