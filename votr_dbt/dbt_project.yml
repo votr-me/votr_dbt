@@ -19,10 +19,14 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+# dispatch:
+#   - macro_namespace: dbt
+#     search_order: ['votr_dbt']
+
 models:
   votr_dbt:
     staging:
-      +schema: staging  # Set the schema for the staging directory
+      # +schema: staging  # Set the schema for the staging directory
       +materialized: table
       stg_legislator_contact_info:
         +materialized: table
@@ -37,10 +41,12 @@ models:
       stg_legislator_terms:
         +materialized: table
       stg_legislator_voting_record:
-        +materialized: table
+        +materialized: incremental
     congress:  # Set the schema for the congress directory
+      +schema: public
       dimensions:
         tables:
+          +cluster_by: ["bioguide_id"] 
           +materialized: table
           dim_legislator_contact_info_historical:
             +materialized: table
@@ -76,10 +82,13 @@ models:
           legislator_legislation_activity_latest:
             +materialized: view
     bills:
+      +schema: public
       +materialized: table
     votes:
+      +schema: public
       +materialized: incremental
     census:
+      +schema: public
       +materialized: table
       
         

@@ -1,26 +1,26 @@
 {{ config(materialized='table') }}
 with member_terms as (
     select
-        "bioguideId" as bioguide_id,
+        `bioguideId` AS bioguide_id,
         chamber,
-        "memberType" as member_type,
-        congress::int::text as congress,
-        "stateCode" as state_code,
-        "stateName" as state_name,
-        district::float::int::text as district,
-        "startYear"::float::int as start_year,
-        "endYear"::float::int as end_year
+        `memberType` AS member_type,
+        CAST(congress AS STRING) AS congress,
+        `stateCode` AS state_code,
+        `stateName` AS state_name,
+        CAST(district AS STRING) AS district,
+        CAST(`startYear` AS INT64) AS start_year,
+        CAST(`endYear` AS INT64) AS end_year
     from {{ source('raw', 'legislator_terms') }}
 ),
 
 current_members as (
     select
-        "bioguideId" as bioguide_id,
-        "currentMember" as is_current_member
+        `bioguideId` AS bioguide_id,
+        `currentMember` AS is_current_member
     from {{ source('raw', 'legislators') }}
 )
 
-select
+SELECT
     mt.bioguide_id,
     mt.chamber,
     mt.member_type,
@@ -31,6 +31,7 @@ select
     mt.start_year,
     mt.end_year,
     cm.is_current_member
-from member_terms as mt
-left join current_members as cm
-    on mt.bioguide_id = cm.bioguide_id
+FROM
+    member_terms AS mt
+LEFT JOIN
+    current_members AS cm ON mt.bioguide_id = cm.bioguide_id

@@ -1,26 +1,108 @@
+# Credentials and Authentication
+oidc_token.json
+workload_identity_config.json
+*credentials*.json
+.env
+*.env
+.env.*
+.gcloud/
+.config/
+application_default_credentials.json
+
 # dbt-specific files and folders
 dbt_packages/
 logs/
 target/
 dbt_project.yml.lock
+.user.yml
+profiles.yml
+.dbt/
+manifest.json
+run_results.json
 
 # Python specific
 *.pyc
 __pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+.venv/
+ENV/
 
 # Jupyter Notebooks
 .ipynb_checkpoints
+*.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+.jupyter/
 
-# macOS specific
-.DS_Store
-
-# Visual Studio Code specific
+# IDE specific
 .vscode/
-
-# PyCharm specific
 .idea/
+*.swp
+*.swo
+.vim/
+*.sublime-workspace
+*.sublime-project
 
-# System files
+# OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+Desktop.ini
 
-.vscode
+# Docker specific
+.docker/
+docker-compose.override.yml
+
+# Data files
+*.csv
+*.tsv
+*.xls
+*.xlsx
+*.parquet
+*.json
+!dbt_project.json
+!packages.json
+*.pickle
+*.pkl
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+logs/
+log/
+
+# Testing
+.coverage
+coverage.xml
+.pytest_cache/
+htmlcov/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*~

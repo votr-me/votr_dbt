@@ -3,146 +3,145 @@
     primary_key = 'id'
 ) }}
 
-
-with cd_income as (
-    select
+WITH cd_income AS (
+    SELECT
         year,
         congressional_district,
         state_fip,
-        'us' as country,
-        hh_income_total::float as cd_hh_income_total,
-        hh_income_total::float / hh_income_total::float as cd_pct_hh_income_total,
-        hh_income_less_10k::float as cd_hh_income_less_10k,
-        hh_income_less_10k::float / hh_income_total::float as cd_pct_hh_income_less_10k,
-        hh_income_10k_to_14k::float as cd_hh_income_10k_to_14k,
-        hh_income_10k_to_14k::float / hh_income_total::float as cd_pct_hh_income_10k_to_14k,
-        hh_income_15k_to_19k::float as cd_hh_income_15k_to_19k,
-        hh_income_15k_to_19k::float / hh_income_total::float as cd_pct_hh_income_15k_to_19k,
-        hh_income_20k_to_24k::float as cd_hh_income_20k_to_24k,
-        hh_income_20k_to_24k::float / hh_income_total::float as cd_pct_hh_income_20k_to_24k,
-        hh_income_25k_to_29k::float as cd_hh_income_25k_to_29k,
-        hh_income_25k_to_29k::float / hh_income_total::float as cd_pct_hh_income_25k_to_29k,
-        hh_income_30k_to_34k::float as cd_hh_income_30k_to_34k,
-        hh_income_30k_to_34k::float / hh_income_total::float as cd_pct_hh_income_30k_to_34k,
-        hh_income_35k_to_39k::float as cd_hh_income_35k_to_39k,
-        hh_income_35k_to_39k::float / hh_income_total::float as cd_pct_hh_income_35k_to_39k,
-        hh_income_40k_to_44k::float as cd_hh_income_40k_to_44k,
-        hh_income_40k_to_44k::float / hh_income_total::float as cd_pct_hh_income_40k_to_44k,
-        hh_income_45k_to_49k::float as cd_hh_income_45k_to_49k,
-        hh_income_45k_to_49k::float / hh_income_total::float as cd_pct_hh_income_45k_to_49k,
-        hh_income_50k_to_59k::float as cd_hh_income_50k_to_59k,
-        hh_income_50k_to_59k::float / hh_income_total::float as cd_pct_hh_income_50k_to_59k,
-        hh_income_60k_to_74k::float as cd_hh_income_60k_to_74k,
-        hh_income_60k_to_74k::float / hh_income_total::float as cd_pct_hh_income_60k_to_74k,
-        hh_income_75k_to_99k::float as cd_hh_income_75k_to_99k,
-        hh_income_75k_to_99k::float / hh_income_total::float as cd_pct_hh_income_75k_to_99k,
-        hh_income_100k_to_124k::float as cd_hh_income_100k_to_124k,
-        hh_income_100k_to_124k::float / hh_income_total::float as cd_pct_hh_income_100k_to_124k,
-        hh_income_125k_to_149k::float as cd_hh_income_125k_to_149k,
-        hh_income_125k_to_149k::float / hh_income_total::float as cd_pct_hh_income_125k_to_149k,
-        hh_income_150k_to_199k::float as cd_hh_income_150k_to_199k,
-        hh_income_150k_to_199k::float / hh_income_total::float as cd_pct_hh_income_150k_to_199k,
-        hh_income_200k_or_more::float as cd_hh_income_200k_or_more,
-        hh_income_200k_or_more::float / hh_income_total::float as cd_pct_hh_income_200k_or_more,
-        median_family_income::float as cd_median_family_income
-    from {{ref('acs5_cd_income_historical')}}
-    where congressional_district not like 'ZZ'
-    order by state_fip, congressional_district, year
+        'us' AS country,
+        CAST(hh_income_total AS BIGNUMERIC) AS cd_hh_income_total,
+        CAST(hh_income_total AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_total,
+        CAST(hh_income_less_10k AS BIGNUMERIC) AS cd_hh_income_less_10k,
+        CAST(hh_income_less_10k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_less_10k,
+        CAST(hh_income_10k_to_14k AS BIGNUMERIC) AS cd_hh_income_10k_to_14k,
+        CAST(hh_income_10k_to_14k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_10k_to_14k,
+        CAST(hh_income_15k_to_19k AS BIGNUMERIC) AS cd_hh_income_15k_to_19k,
+        CAST(hh_income_15k_to_19k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_15k_to_19k,
+        CAST(hh_income_20k_to_24k AS BIGNUMERIC) AS cd_hh_income_20k_to_24k,
+        CAST(hh_income_20k_to_24k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_20k_to_24k,
+        CAST(hh_income_25k_to_29k AS BIGNUMERIC) AS cd_hh_income_25k_to_29k,
+        CAST(hh_income_25k_to_29k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_25k_to_29k,
+        CAST(hh_income_30k_to_34k AS BIGNUMERIC) AS cd_hh_income_30k_to_34k,
+        CAST(hh_income_30k_to_34k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_30k_to_34k,
+        CAST(hh_income_35k_to_39k AS BIGNUMERIC) AS cd_hh_income_35k_to_39k,
+        CAST(hh_income_35k_to_39k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_35k_to_39k,
+        CAST(hh_income_40k_to_44k AS BIGNUMERIC) AS cd_hh_income_40k_to_44k,
+        CAST(hh_income_40k_to_44k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_40k_to_44k,
+        CAST(hh_income_45k_to_49k AS BIGNUMERIC) AS cd_hh_income_45k_to_49k,
+        CAST(hh_income_45k_to_49k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_45k_to_49k,
+        CAST(hh_income_50k_to_59k AS BIGNUMERIC) AS cd_hh_income_50k_to_59k,
+        CAST(hh_income_50k_to_59k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_50k_to_59k,
+        CAST(hh_income_60k_to_74k AS BIGNUMERIC) AS cd_hh_income_60k_to_74k,
+        CAST(hh_income_60k_to_74k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_60k_to_74k,
+        CAST(hh_income_75k_to_99k AS BIGNUMERIC) AS cd_hh_income_75k_to_99k,
+        CAST(hh_income_75k_to_99k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_75k_to_99k,
+        CAST(hh_income_100k_to_124k AS BIGNUMERIC) AS cd_hh_income_100k_to_124k,
+        CAST(hh_income_100k_to_124k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_100k_to_124k,
+        CAST(hh_income_125k_to_149k AS BIGNUMERIC) AS cd_hh_income_125k_to_149k,
+        CAST(hh_income_125k_to_149k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_125k_to_149k,
+        CAST(hh_income_150k_to_199k AS BIGNUMERIC) AS cd_hh_income_150k_to_199k,
+        CAST(hh_income_150k_to_199k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_150k_to_199k,
+        CAST(hh_income_200k_or_more AS BIGNUMERIC) AS cd_hh_income_200k_or_more,
+        CAST(hh_income_200k_or_more AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS cd_pct_hh_income_200k_or_more,
+        CAST(median_family_income AS BIGNUMERIC) AS cd_median_family_income
+    FROM
+        {{ ref('acs5_cd_income_historical') }}
+    WHERE congressional_district NOT LIKE 'ZZ'
 ),
 
-state_income as (
-    select
+state_income AS (
+    SELECT
         year,
         state_fip,
-        'us' as country,
-        hh_income_total::float as state_hh_income_total,
-        hh_income_total::float / hh_income_total::float as state_pct_hh_income_total,
-        hh_income_less_10k::float as state_hh_income_less_10k,
-        hh_income_less_10k::float / hh_income_total::float as state_pct_hh_income_less_10k,
-        hh_income_10k_to_14k::float as state_hh_income_10k_to_14k,
-        hh_income_10k_to_14k::float / hh_income_total::float as state_pct_hh_income_10k_to_14k,
-        hh_income_15k_to_19k::float as state_hh_income_15k_to_19k,
-        hh_income_15k_to_19k::float / hh_income_total::float as state_pct_hh_income_15k_to_19k,
-        hh_income_20k_to_24k::float as state_hh_income_20k_to_24k,
-        hh_income_20k_to_24k::float / hh_income_total::float as state_pct_hh_income_20k_to_24k,
-        hh_income_25k_to_29k::float as state_hh_income_25k_to_29k,
-        hh_income_25k_to_29k::float / hh_income_total::float as state_pct_hh_income_25k_to_29k,
-        hh_income_30k_to_34k::float as state_hh_income_30k_to_34k,
-        hh_income_30k_to_34k::float / hh_income_total::float as state_pct_hh_income_30k_to_34k,
-        hh_income_35k_to_39k::float as state_hh_income_35k_to_39k,
-        hh_income_35k_to_39k::float / hh_income_total::float as state_pct_hh_income_35k_to_39k,
-        hh_income_40k_to_44k::float as state_hh_income_40k_to_44k,
-        hh_income_40k_to_44k::float / hh_income_total::float as state_pct_hh_income_40k_to_44k,
-        hh_income_45k_to_49k::float as state_hh_income_45k_to_49k,
-        hh_income_45k_to_49k::float / hh_income_total::float as state_pct_hh_income_45k_to_49k,
-        hh_income_50k_to_59k::float as state_hh_income_50k_to_59k,
-        hh_income_50k_to_59k::float / hh_income_total::float as state_pct_hh_income_50k_to_59k,
-        hh_income_60k_to_74k::float as state_hh_income_60k_to_74k,
-        hh_income_60k_to_74k::float / hh_income_total::float as state_pct_hh_income_60k_to_74k,
-        hh_income_75k_to_99k::float as state_hh_income_75k_to_99k,
-        hh_income_75k_to_99k::float / hh_income_total::float as state_pct_hh_income_75k_to_99k,
-        hh_income_100k_to_124k::float as state_hh_income_100k_to_124k,
-        hh_income_100k_to_124k::float / hh_income_total::float as state_pct_hh_income_100k_to_124k,
-        hh_income_125k_to_149k::float as state_hh_income_125k_to_149k,
-        hh_income_125k_to_149k::float / hh_income_total::float as state_pct_hh_income_125k_to_149k,
-        hh_income_150k_to_199k::float as state_hh_income_150k_to_199k,
-        hh_income_150k_to_199k::float / hh_income_total::float as state_pct_hh_income_150k_to_199k,
-        hh_income_200k_or_more::float as state_hh_income_200k_or_more,
-        hh_income_200k_or_more::float / hh_income_total::float as state_pct_hh_income_200k_or_more,
-        median_family_income::float as state_median_family_income
-    from {{ref('acs5_state_income_historical')}}
-    order by state_fip, year
+        'us' AS country,
+        CAST(hh_income_total AS BIGNUMERIC) AS state_hh_income_total,
+        CAST(hh_income_total AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_total,
+        CAST(hh_income_less_10k AS BIGNUMERIC) AS state_hh_income_less_10k,
+        CAST(hh_income_less_10k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_less_10k,
+        CAST(hh_income_10k_to_14k AS BIGNUMERIC) AS state_hh_income_10k_to_14k,
+        CAST(hh_income_10k_to_14k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_10k_to_14k,
+        CAST(hh_income_15k_to_19k AS BIGNUMERIC) AS state_hh_income_15k_to_19k,
+        CAST(hh_income_15k_to_19k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_15k_to_19k,
+        CAST(hh_income_20k_to_24k AS BIGNUMERIC) AS state_hh_income_20k_to_24k,
+        CAST(hh_income_20k_to_24k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_20k_to_24k,
+        CAST(hh_income_25k_to_29k AS BIGNUMERIC) AS state_hh_income_25k_to_29k,
+        CAST(hh_income_25k_to_29k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_25k_to_29k,
+        CAST(hh_income_30k_to_34k AS BIGNUMERIC) AS state_hh_income_30k_to_34k,
+        CAST(hh_income_30k_to_34k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_30k_to_34k,
+        CAST(hh_income_35k_to_39k AS BIGNUMERIC) AS state_hh_income_35k_to_39k,
+        CAST(hh_income_35k_to_39k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_35k_to_39k,
+        CAST(hh_income_40k_to_44k AS BIGNUMERIC) AS state_hh_income_40k_to_44k,
+        CAST(hh_income_40k_to_44k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_40k_to_44k,
+        CAST(hh_income_45k_to_49k AS BIGNUMERIC) AS state_hh_income_45k_to_49k,
+        CAST(hh_income_45k_to_49k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_45k_to_49k,
+        CAST(hh_income_50k_to_59k AS BIGNUMERIC) AS state_hh_income_50k_to_59k,
+        CAST(hh_income_50k_to_59k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_50k_to_59k,
+        CAST(hh_income_60k_to_74k AS BIGNUMERIC) AS state_hh_income_60k_to_74k,
+        CAST(hh_income_60k_to_74k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_60k_to_74k,
+        CAST(hh_income_75k_to_99k AS BIGNUMERIC) AS state_hh_income_75k_to_99k,
+        CAST(hh_income_75k_to_99k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_75k_to_99k,
+        CAST(hh_income_100k_to_124k AS BIGNUMERIC) AS state_hh_income_100k_to_124k,
+        CAST(hh_income_100k_to_124k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_100k_to_124k,
+        CAST(hh_income_125k_to_149k AS BIGNUMERIC) AS state_hh_income_125k_to_149k,
+        CAST(hh_income_125k_to_149k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_125k_to_149k,
+        CAST(hh_income_150k_to_199k AS BIGNUMERIC) AS state_hh_income_150k_to_199k,
+        CAST(hh_income_150k_to_199k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_150k_to_199k,
+        CAST(hh_income_200k_or_more AS BIGNUMERIC) AS state_hh_income_200k_or_more,
+        CAST(hh_income_200k_or_more AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS state_pct_hh_income_200k_or_more,
+        CAST(median_family_income AS BIGNUMERIC) AS state_median_family_income
+    FROM
+        {{ ref('acs5_state_income_historical') }}
 ),
 
-us_income as (
-    select
+us_income AS (
+    SELECT
         year,
-        'us' as country,
-        hh_income_total::float as us_hh_income_total,
-        hh_income_total::float / hh_income_total::float as us_pct_hh_income_total,
-        hh_income_less_10k::float as us_hh_income_less_10k,
-        hh_income_less_10k::float / hh_income_total::float as us_pct_hh_income_less_10k,
-        hh_income_10k_to_14k::float as us_hh_income_10k_to_14k,
-        hh_income_10k_to_14k::float / hh_income_total::float as us_pct_hh_income_10k_to_14k,
-        hh_income_15k_to_19k::float as us_hh_income_15k_to_19k,
-        hh_income_15k_to_19k::float / hh_income_total::float as us_pct_hh_income_15k_to_19k,
-        hh_income_20k_to_24k::float as us_hh_income_20k_to_24k,
-        hh_income_20k_to_24k::float / hh_income_total::float as us_pct_hh_income_20k_to_24k,
-        hh_income_25k_to_29k::float as us_hh_income_25k_to_29k,
-        hh_income_25k_to_29k::float / hh_income_total::float as us_pct_hh_income_25k_to_29k,
-        hh_income_30k_to_34k::float as us_hh_income_30k_to_34k,
-        hh_income_30k_to_34k::float / hh_income_total::float as us_pct_hh_income_30k_to_34k,
-        hh_income_35k_to_39k::float as us_hh_income_35k_to_39k,
-        hh_income_35k_to_39k::float / hh_income_total::float as us_pct_hh_income_35k_to_39k,
-        hh_income_40k_to_44k::float as us_hh_income_40k_to_44k,
-        hh_income_40k_to_44k::float / hh_income_total::float as us_pct_hh_income_40k_to_44k,
-        hh_income_45k_to_49k::float as us_hh_income_45k_to_49k,
-        hh_income_45k_to_49k::float / hh_income_total::float as us_pct_hh_income_45k_to_49k,
-        hh_income_50k_to_59k::float as us_hh_income_50k_to_59k,
-        hh_income_50k_to_59k::float / hh_income_total::float as us_pct_hh_income_50k_to_59k,
-        hh_income_60k_to_74k::float as us_hh_income_60k_to_74k,
-        hh_income_60k_to_74k::float / hh_income_total::float as us_pct_hh_income_60k_to_74k,
-        hh_income_75k_to_99k::float as us_hh_income_75k_to_99k,
-        hh_income_75k_to_99k::float / hh_income_total::float as us_pct_hh_income_75k_to_99k,
-        hh_income_100k_to_124k::float as us_hh_income_100k_to_124k,
-        hh_income_100k_to_124k::float / hh_income_total::float as us_pct_hh_income_100k_to_124k,
-        hh_income_125k_to_149k::float as us_hh_income_125k_to_149k,
-        hh_income_125k_to_149k::float / hh_income_total::float as us_pct_hh_income_125k_to_149k,
-        hh_income_150k_to_199k::float as us_hh_income_150k_to_199k,
-        hh_income_150k_to_199k::float / hh_income_total::float as us_pct_hh_income_150k_to_199k,
-        hh_income_200k_or_more::float as us_hh_income_200k_or_more,
-        hh_income_200k_or_more::float / hh_income_total::float as us_pct_hh_income_200k_or_more,
-        median_family_income::float as us_median_family_income
-    from {{ref( 'acs5_us_income_historical')}}
-    order by year
+        'us' AS country,
+        CAST(hh_income_total AS BIGNUMERIC) AS us_hh_income_total,
+        CAST(hh_income_total AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_total,
+        CAST(hh_income_less_10k AS BIGNUMERIC) AS us_hh_income_less_10k,
+        CAST(hh_income_less_10k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_less_10k,
+        CAST(hh_income_10k_to_14k AS BIGNUMERIC) AS us_hh_income_10k_to_14k,
+        CAST(hh_income_10k_to_14k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_10k_to_14k,
+        CAST(hh_income_15k_to_19k AS BIGNUMERIC) AS us_hh_income_15k_to_19k,
+        CAST(hh_income_15k_to_19k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_15k_to_19k,
+        CAST(hh_income_20k_to_24k AS BIGNUMERIC) AS us_hh_income_20k_to_24k,
+        CAST(hh_income_20k_to_24k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_20k_to_24k,
+        CAST(hh_income_25k_to_29k AS BIGNUMERIC) AS us_hh_income_25k_to_29k,
+        CAST(hh_income_25k_to_29k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_25k_to_29k,
+        CAST(hh_income_30k_to_34k AS BIGNUMERIC) AS us_hh_income_30k_to_34k,
+        CAST(hh_income_30k_to_34k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_30k_to_34k,
+        CAST(hh_income_35k_to_39k AS BIGNUMERIC) AS us_hh_income_35k_to_39k,
+        CAST(hh_income_35k_to_39k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_35k_to_39k,
+        CAST(hh_income_40k_to_44k AS BIGNUMERIC) AS us_hh_income_40k_to_44k,
+        CAST(hh_income_40k_to_44k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_40k_to_44k,
+        CAST(hh_income_45k_to_49k AS BIGNUMERIC) AS us_hh_income_45k_to_49k,
+        CAST(hh_income_45k_to_49k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_45k_to_49k,
+        CAST(hh_income_50k_to_59k AS BIGNUMERIC) AS us_hh_income_50k_to_59k,
+        CAST(hh_income_50k_to_59k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_50k_to_59k,
+        CAST(hh_income_60k_to_74k AS BIGNUMERIC) AS us_hh_income_60k_to_74k,
+        CAST(hh_income_60k_to_74k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_60k_to_74k,
+        CAST(hh_income_75k_to_99k AS BIGNUMERIC) AS us_hh_income_75k_to_99k,
+        CAST(hh_income_75k_to_99k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_75k_to_99k,
+        CAST(hh_income_100k_to_124k AS BIGNUMERIC) AS us_hh_income_100k_to_124k,
+        CAST(hh_income_100k_to_124k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_100k_to_124k,
+        CAST(hh_income_125k_to_149k AS BIGNUMERIC) AS us_hh_income_125k_to_149k,
+        CAST(hh_income_125k_to_149k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_125k_to_149k,
+        CAST(hh_income_150k_to_199k AS BIGNUMERIC) AS us_hh_income_150k_to_199k,
+        CAST(hh_income_150k_to_199k AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_150k_to_199k,
+        CAST(hh_income_200k_or_more AS BIGNUMERIC) AS us_hh_income_200k_or_more,
+        CAST(hh_income_200k_or_more AS BIGNUMERIC) / CAST(hh_income_total AS BIGNUMERIC) AS us_pct_hh_income_200k_or_more,
+        CAST(median_family_income AS BIGNUMERIC) AS us_median_family_income
+    FROM
+        {{ ref('acs5_us_income_historical') }}
 )
 
-select
-    {{dbt_utils.generate_surrogate_key(['cd_income.year', 'cd_income.state_fip', 'cd_income.congressional_district'])}} as id,
+SELECT
+    {{ dbt_utils.generate_surrogate_key(['cd_income.year', 'cd_income.state_fip', 'cd_income.congressional_district']) }} AS id,
     cd_income.year,
     cd_income.congressional_district,
     cd_income.state_fip,
-    cd_income.country as cd_country,
+    cd_income.country AS cd_country,
     cd_income.cd_hh_income_total,
     cd_income.cd_pct_hh_income_total,
     cd_income.cd_hh_income_less_10k,
@@ -187,7 +186,7 @@ select
     state_income.state_hh_income_15k_to_19k,
     state_income.state_pct_hh_income_15k_to_19k,
     state_income.state_hh_income_20k_to_24k,
-    state_income.state_pct_hh_income_20k_to_24k,
+    state_income.state_pct_hh_income_20k_to_24k,    
     state_income.state_hh_income_25k_to_29k,
     state_income.state_pct_hh_income_25k_to_29k,
     state_income.state_hh_income_30k_to_34k,
@@ -248,11 +247,12 @@ select
     us_income.us_hh_income_200k_or_more,
     us_income.us_pct_hh_income_200k_or_more,
     us_income.us_median_family_income
-from cd_income
-left join state_income
-    on cd_income.state_fip = state_income.state_fip
-        and cd_income.year = state_income.year
-left join us_income
-    on cd_income.country = us_income.country
-        and cd_income.year = us_income.year
-order by cd_income.state_fip, cd_income.congressional_district, cd_income.year
+FROM
+    cd_income
+LEFT JOIN
+    state_income ON cd_income.state_fip = state_income.state_fip
+        AND cd_income.year = state_income.year
+LEFT JOIN
+    us_income ON cd_income.country = us_income.country
+        AND cd_income.year = us_income.year
+-- Removed ORDER BY clause

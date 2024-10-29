@@ -3,99 +3,98 @@
     primary_key = 'id'
 ) }}
 
-
-with cd_demographics as (
-    select
+WITH cd_demographics AS (
+    SELECT
         year,
         congressional_district,
         state_fip,
-        'us' as country,
-        'cd' as record_level, 
-        sex_total as cd_sex_total,
-        sex_male::float / sex_total::float as cd_pct_male,
-        sex_male as cd_sex_male,
-        sex_female::float / sex_total::float as cd_pct_female,
-        (male_voting_age_population::float + female_voting_age_population::float) as cd_total_voting_age,
-        (male_voting_age_population::float + female_voting_age_population::float) / sex_total as cd_pct_population_of_voting_age,
-        race_white_total as cd_race_white_total,
-        race_white_total::float / total_population::float as cd_pct_white,
-        race_asian_total as cd_asian_total,
-        race_asian_total::float / total_population::float as cd_pct_asian,
-        race_black_total as cd_race_black_total,
-        race_black_total::float / total_population::float as cd_pct_black,
-        hispanic_total as cd_race_hispanic_total,
-        hispanic_total::float / total_population::float as cd_pct_hispanic,
-        race_pacific_islander_total as cd_race_pacific_islander_total,
-        race_pacific_islander_total::float / total_population::float as cd_pct_pacific_islander,
-        race_other_total as cd_race_other_total,
-        race_other_total::float / total_population as cd_pct_other_race,
-        race_two_or_more_total as cd_race_two_or_more_total,
-        race_two_or_more_total::float / total_population as cd_pct_two_or_more
-    from {{ ref('acs5_cd_demographics_historical')}}
-    where congressional_district not like 'ZZ'
-    order by state_fip, congressional_district, year
+        'us' AS country,
+        'cd' AS record_level,
+        sex_total AS cd_sex_total,
+        CAST(sex_male AS BIGNUMERIC) / CAST(sex_total AS BIGNUMERIC) AS cd_pct_male,
+        sex_male AS cd_sex_male,
+        CAST(sex_female AS BIGNUMERIC) / CAST(sex_total AS BIGNUMERIC) AS cd_pct_female,
+        (CAST(male_voting_age_population AS BIGNUMERIC) + CAST(female_voting_age_population AS BIGNUMERIC)) AS cd_total_voting_age,
+        (CAST(male_voting_age_population AS BIGNUMERIC) + CAST(female_voting_age_population AS BIGNUMERIC)) / CAST(sex_total AS BIGNUMERIC) AS cd_pct_population_of_voting_age,
+        race_white_total AS cd_race_white_total,
+        CAST(race_white_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS cd_pct_white,
+        race_asian_total AS cd_asian_total,
+        CAST(race_asian_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS cd_pct_asian,
+        race_black_total AS cd_race_black_total,
+        CAST(race_black_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS cd_pct_black,
+        hispanic_total AS cd_race_hispanic_total,
+        CAST(hispanic_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS cd_pct_hispanic,
+        race_pacific_islander_total AS cd_race_pacific_islander_total,
+        CAST(race_pacific_islander_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS cd_pct_pacific_islander,
+        race_other_total AS cd_race_other_total,
+        CAST(race_other_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS cd_pct_other_race,
+        race_two_or_more_total AS cd_race_two_or_more_total,
+        CAST(race_two_or_more_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS cd_pct_two_or_more
+    FROM
+        {{ ref('acs5_cd_demographics_historical') }}
+    WHERE congressional_district NOT LIKE 'ZZ'
 ),
 
-state_demographics as (
-    select
+state_demographics AS (
+    SELECT
         year,
         state_fip,
-        'us' as country,
-        'state' as record_level, 
-        sex_total as state_sex_total,
-        sex_male::float / sex_total::float as state_pct_male,
-        sex_male as state_sex_male,
-        sex_female::float / sex_total::float as state_pct_female,
-        (male_voting_age_population::float + female_voting_age_population::float) as state_total_voting_age,
-        (male_voting_age_population::float + female_voting_age_population::float) / sex_total as state_pct_population_of_voting_age,
-        race_white_total as state_race_white_total,
-        race_white_total::float / total_population::float as state_pct_white,
-        race_asian_total as state_asian_total,
-        race_asian_total::float / total_population::float as state_pct_asian,
-        race_black_total as state_race_black_total,
-        race_black_total::float / total_population::float as state_pct_black,
-        hispanic_total as state_race_hispanic_total,
-        hispanic_total::float / total_population::float as state_pct_hispanic,
-        race_pacific_islander_total as state_race_pacific_islander_total,
-        race_pacific_islander_total::float / total_population::float as state_pct_pacific_islander,
-        race_other_total as state_race_other_total,
-        race_other_total::float / total_population as state_pct_other_race,
-        race_two_or_more_total as state_race_two_or_more_total,
-        race_two_or_more_total::float / total_population as state_pct_two_or_more
-    from{{ ref('acs5_state_demographics_historical')}}
-    order by state_fip, year
+        'us' AS country,
+        'state' AS record_level,
+        sex_total AS state_sex_total,
+        CAST(sex_male AS BIGNUMERIC) / CAST(sex_total AS BIGNUMERIC) AS state_pct_male,
+        sex_male AS state_sex_male,
+        CAST(sex_female AS BIGNUMERIC) / CAST(sex_total AS BIGNUMERIC) AS state_pct_female,
+        (CAST(male_voting_age_population AS BIGNUMERIC) + CAST(female_voting_age_population AS BIGNUMERIC)) AS state_total_voting_age,
+        (CAST(male_voting_age_population AS BIGNUMERIC) + CAST(female_voting_age_population AS BIGNUMERIC)) / CAST(sex_total AS BIGNUMERIC) AS state_pct_population_of_voting_age,
+        race_white_total AS state_race_white_total,
+        CAST(race_white_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS state_pct_white,
+        race_asian_total AS state_asian_total,
+        CAST(race_asian_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS state_pct_asian,
+        race_black_total AS state_race_black_total,
+        CAST(race_black_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS state_pct_black,
+        hispanic_total AS state_race_hispanic_total,
+        CAST(hispanic_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS state_pct_hispanic,
+        race_pacific_islander_total AS state_race_pacific_islander_total,
+        CAST(race_pacific_islander_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS state_pct_pacific_islander,
+        race_other_total AS state_race_other_total,
+        CAST(race_other_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS state_pct_other_race,
+        race_two_or_more_total AS state_race_two_or_more_total,
+        CAST(race_two_or_more_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS state_pct_two_or_more
+    FROM
+        {{ ref('acs5_state_demographics_historical') }}
 ),
 
-us_demographics as (
-    select
+us_demographics AS (
+    SELECT
         year,
-        'us' as country,
-        sex_total as us_sex_total,
-        sex_male::float / sex_total::float as us_pct_male,
-        sex_male as us_sex_male,
-        sex_female::float / sex_total::float as us_pct_female,
-        (male_voting_age_population::float + female_voting_age_population::float) as us_total_voting_age,
-        (male_voting_age_population::float + female_voting_age_population::float) / sex_total as us_pct_population_of_voting_age,
-        race_white_total as us_race_white_total,
-        race_white_total::float / total_population::float as us_pct_white,
-        race_asian_total as us_asian_total,
-        race_asian_total::float / total_population::float as us_pct_asian,
-        race_black_total as us_race_black_total,
-        race_black_total::float / total_population::float as us_pct_black,
-        hispanic_total as us_race_hispanic_total,
-        hispanic_total::float / total_population::float as us_pct_hispanic,
-        race_pacific_islander_total as us_race_pacific_islander_total,
-        race_pacific_islander_total::float / total_population::float as us_pct_pacific_islander,
-        race_other_total as us_race_other_total,
-        race_other_total::float / total_population as us_pct_other_race,
-        race_two_or_more_total as us_race_two_or_more_total,
-        race_two_or_more_total::float / total_population as us_pct_two_or_more
-    from {{ ref('acs5_us_demographics_historical')}}
-    order by year
+        'us' AS country,
+        sex_total AS us_sex_total,
+        CAST(sex_male AS BIGNUMERIC) / CAST(sex_total AS BIGNUMERIC) AS us_pct_male,
+        sex_male AS us_sex_male,
+        CAST(sex_female AS BIGNUMERIC) / CAST(sex_total AS BIGNUMERIC) AS us_pct_female,
+        (CAST(male_voting_age_population AS BIGNUMERIC) + CAST(female_voting_age_population AS BIGNUMERIC)) AS us_total_voting_age,
+        (CAST(male_voting_age_population AS BIGNUMERIC) + CAST(female_voting_age_population AS BIGNUMERIC)) / CAST(sex_total AS BIGNUMERIC) AS us_pct_population_of_voting_age,
+        race_white_total AS us_race_white_total,
+        CAST(race_white_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS us_pct_white,
+        race_asian_total AS us_asian_total,
+        CAST(race_asian_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS us_pct_asian,
+        race_black_total AS us_race_black_total,
+        CAST(race_black_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS us_pct_black,
+        hispanic_total AS us_race_hispanic_total,
+        CAST(hispanic_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS us_pct_hispanic,
+        race_pacific_islander_total AS us_race_pacific_islander_total,
+        CAST(race_pacific_islander_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS us_pct_pacific_islander,
+        race_other_total AS us_race_other_total,
+        CAST(race_other_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS us_pct_other_race,
+        race_two_or_more_total AS us_race_two_or_more_total,
+        CAST(race_two_or_more_total AS BIGNUMERIC) / CAST(total_population AS BIGNUMERIC) AS us_pct_two_or_more
+    FROM
+        {{ ref('acs5_us_demographics_historical') }}
 )
 
-select
-    {{dbt_utils.generate_surrogate_key(['cd_demographics.year', 'cd_demographics.state_fip', 'cd_demographics.congressional_district'])}} as id,
+SELECT
+    {{ dbt_utils.generate_surrogate_key(['cd_demographics.year', 'cd_demographics.state_fip', 'cd_demographics.congressional_district']) }} AS id,
     cd_demographics.year,
     cd_demographics.state_fip,
     cd_demographics.congressional_district,
@@ -160,11 +159,11 @@ select
     us_demographics.us_pct_other_race,
     us_demographics.us_race_two_or_more_total,
     us_demographics.us_pct_two_or_more
-from cd_demographics
-left join state_demographics
-    on cd_demographics.state_fip = state_demographics.state_fip
-        and cd_demographics.year = state_demographics.year
-left join us_demographics
-    on cd_demographics.country = us_demographics.country
-        and cd_demographics.year = us_demographics.year
-order by cd_demographics.state_fip, cd_demographics.congressional_district, cd_demographics.year
+FROM
+    cd_demographics
+LEFT JOIN
+    state_demographics ON cd_demographics.state_fip = state_demographics.state_fip
+        AND cd_demographics.year = state_demographics.year
+LEFT JOIN
+    us_demographics ON cd_demographics.country = us_demographics.country
+        AND cd_demographics.year = us_demographics.year

@@ -1,4 +1,3 @@
--- models/member_bio_info.sql
 {{ config(
     materialized='table'
 ) }}
@@ -7,14 +6,14 @@ WITH member_bio_info AS (
     SELECT
         bioguide_id,
         is_current_member,
-        birthday::date AS birthday,
+        CAST(birthday AS DATE) AS birthday,
         member_state,
         member_district,
         member_type,
         depiction_image_url,
         depiction_attribution,
         leadership_titles,
-        DATE_PART('year', AGE(CURRENT_DATE, birthday::date)) AS member_age,
+        CAST(DATE_DIFF(CURRENT_DATE(), CAST(birthday AS DATE), YEAR) AS INT64) AS member_age,
         INITCAP(last_name) AS last_name,
         INITCAP(first_name) AS first_name,
         INITCAP(middle_name) AS middle_name,
@@ -24,7 +23,8 @@ WITH member_bio_info AS (
             WHEN member_type = 'rep' THEN 'Representative'
             WHEN member_type = 'sen' THEN 'Senator'
         END AS member_title
-    FROM {{ ref('dim_legislator_historical') }}
+    FROM
+        {{ ref('dim_legislator_historical') }}
 ),
 
 contact_info AS (
@@ -37,7 +37,8 @@ contact_info AS (
         office_city,
         office_zipcode,
         official_website_url
-    FROM {{ ref('dim_legislator_contact_info_historical') }}
+    FROM
+        {{ ref('dim_legislator_contact_info_historical') }}
 ),
 
 social_ids AS (
@@ -53,19 +54,9 @@ social_ids AS (
         icpsr_id,
         wikipedia_id,
         fec_ids
-    FROM {{ ref('dim_legislator_ids_historical') }}
-    GROUP BY
-        bioguide_id,
-        is_current_member,
-        thomas_id,
-        opensecrets_id,
-        lis_id,
-        govtrack_id,
-        votesmart_id,
-        ballotpedia_id,
-        icpsr_id,
-        wikipedia_id,
-        fec_ids
+    FROM
+        {{ ref('dim_legislator_ids_historical') }}
+    GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11  -- Simplified GROUP BY
 ),
 
 legislative_activity AS (
@@ -75,7 +66,8 @@ legislative_activity AS (
         sponsored_legislation_url,
         num_cosponsored_legislation,
         cosponsored_legislation_url
-    FROM {{ ref('legislator_legislation_activity_historical') }}
+    FROM
+        {{ ref('legislator_legislation_activity_historical') }}
 ),
 
 legislator_term_summary AS (
@@ -87,9 +79,9 @@ legislator_term_summary AS (
         last_year_in_chamber,
         total_years_served,
         num_congresses_served
-    FROM {{ ref('legislator_term_summary') }}
+    FROM
+        {{ ref('legislator_term_summary') }}
 )
-
 
 SELECT
     bio.bioguide_id,
@@ -131,12 +123,13 @@ SELECT
     legislator_term_summary.last_year_in_chamber,
     legislator_term_summary.total_years_served,
     legislator_term_summary.num_congresses_served
-FROM member_bio_info AS bio
-LEFT JOIN contact_info AS contact
-    ON bio.bioguide_id = contact.bioguide_id
-LEFT JOIN social_ids AS social
-    ON bio.bioguide_id = social.bioguide_id
-LEFT JOIN legislative_activity
-    ON bio.bioguide_id = legislative_activity.bioguide_id
-LEFT JOIN legislator_term_summary
-    ON bio.bioguide_id = legislator_term_summary.bioguide_id
+FROM
+    member_bio_info AS bio
+LEFT JOIN
+    contact_info AS contact ON bio.bioguide_id = contact.bioguide_id
+LEFT JOIN
+    social_ids AS social ON bio.bioguide_id = social.bioguide_id
+LEFT JOIN
+    legislative_activity ON bio.bioguide_id = legislative_activity.bioguide_id
+LEFT JOIN
+    legislator_term_summary ON bio.bioguide_id = legislator_term_summary.bioguide_id

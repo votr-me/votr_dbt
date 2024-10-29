@@ -1,37 +1,24 @@
 {{ config(materialized='table') }}
 
 with base as (
-    select
+    SELECT
         bioguide_id,
         address,
-        phone as office_phone_number,
+        phone AS office_phone_number,
         contact_form,
-        "currentMember"::bool as is_current_member,
-        "addressInformation_officeAddress" as office_address,
-        "addressInformation_city" as office_city,
-        "officialWebsiteUrl" as official_website_url,
-        case
-            when
-                length(
-                    regexp_replace(
-                        trim("addressInformation_zipCode"), '[^0-9]', ''
-                    )
-                )
-                = 5
-                then
-                    (regexp_replace(
-                        trim("addressInformation_zipCode"), '[^0-9]', ''
-                    ))::integer
-            else
-                (lpad(
-                    regexp_replace(
-                        trim("addressInformation_zipCode"), '[^0-9]', ''
-                    ),
-                    5,
-                    '0'
-                ))::integer
-        end as office_zipcode
-    from {{ source('raw', 'legislators') }}
+        CAST(`currentMember` AS BOOL) AS is_current_member,
+        `addressInformation_officeAddress` AS office_address,
+        `addressInformation_city` AS office_city,
+        `officialWebsiteUrl` AS official_website_url,
+        CAST(
+        CASE
+            WHEN LENGTH(REGEXP_REPLACE(TRIM(CAST(`addressInformation_zipCode` AS STRING)), r'[^0-9]', '')) = 5 THEN REGEXP_REPLACE(TRIM(CAST(`addressInformation_zipCode` AS STRING)), r'[^0-9]', '')
+            ELSE LPAD(REGEXP_REPLACE(TRIM(CAST(`addressInformation_zipCode` AS STRING)), r'[^0-9]', ''), 5, '0')
+        END AS INT64
+        ) AS office_zipcode
+    FROM
+        {{ source('raw', 'legislators') }}
 )
 
-select * from base
+select * 
+from base

@@ -1,9 +1,9 @@
 {{ config(materialized='incremental') }}
 select
     bioguide_id,
-    "currentMember"::bool as is_current_member,
-    "sponsoredLegislation_count"::float::int as num_sponsored_legislation,
-    "sponsoredLegislation_url" as sponsored_legislation_url,
-    "cosponsoredLegislation_count"::float::int as num_cosponsored_legislation,
-    "cosponsoredLegislation_url" as cosponsored_legislation_url
+    CAST(`currentMember` AS BOOL) AS is_current_member,
+    CAST(`sponsoredLegislation_count` AS INT64) AS num_sponsored_legislation,
+    `sponsoredLegislation_url` AS sponsored_legislation_url,
+    CAST(`cosponsoredLegislation_count` AS INT64) AS num_cosponsored_legislation,
+    `cosponsoredLegislation_url` AS cosponsored_legislation_url
 from {{ source('raw', 'legislators') }}

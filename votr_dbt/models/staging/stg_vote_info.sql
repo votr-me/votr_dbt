@@ -1,6 +1,7 @@
-{{ config(materialized='incremental') }}
+{{ config(materialized='incremental', primary_key='id') }}
 
 SELECT
+    {{ dbt_utils.generate_surrogate_key(['vote_id', 'type', 'congress', 'session']) }} AS id,
     vote_id,
     type,
     number,
@@ -12,8 +13,8 @@ SELECT
     purpose,
     question,
     author,
-    date::timestamp AS date,
-    updated_at::timestamp AS updated_at,
+    CAST(date AS TIMESTAMP) AS date,
+    CAST(updated_at AS TIMESTAMP) AS updated_at,
     requires,
     result,
     result_text,

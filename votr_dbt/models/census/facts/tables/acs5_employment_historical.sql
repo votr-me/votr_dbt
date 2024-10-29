@@ -3,52 +3,63 @@
     primary_key = 'id'
 ) }}
 
-with cd_employment as (select year,
-                              state_fip,
-                              congressional_district,
-                              'us' as country,
-                              employment_status_total as cd_employment_status_total,
-                              in_labor_force as cd_in_labor_force,
-                              pct_in_labor_force as cd_pct_in_labor_force,
-                              not_in_labor_force as cd_not_in_labor_force,
-                              pct_not_in_labor_force as cd_pct_not_in_labor_force,
-                              civilian_labor_force as cd_civilian_labor_force,
-                              pct_civilian_labor_force as cd_pct_civilian_labor_force,
-                              civilian_employed as cd_civilian_employed,
-                              pct_civilian_employed as cd_pct_civilian_employed
-                       from {{ ref('acs5_cd_employment_historical')}}
-                       where congressional_district != 'ZZ'),
+WITH cd_employment AS (
+    SELECT
+        year,
+        state_fip,
+        congressional_district,
+        'us' AS country,
+        employment_status_total AS cd_employment_status_total,
+        in_labor_force AS cd_in_labor_force,
+        pct_in_labor_force AS cd_pct_in_labor_force,
+        not_in_labor_force AS cd_not_in_labor_force,
+        pct_not_in_labor_force AS cd_pct_not_in_labor_force,
+        civilian_labor_force AS cd_civilian_labor_force,
+        pct_civilian_labor_force AS cd_pct_civilian_labor_force,
+        civilian_employed AS cd_civilian_employed,
+        pct_civilian_employed AS cd_pct_civilian_employed
+    FROM
+        {{ ref('acs5_cd_employment_historical') }}
+    WHERE congressional_district != 'ZZ'
+),
 
-     us_employment as (select year,
-                              employment_status_total                               as us_employment_status_total,
-                              'us'                                                  as country,
-                              in_labor_force                                        as us_in_labor_force,
-                              in_labor_force::float / employment_status_total       as us_pct_in_labor_force,
-                              not_in_labor_force                                    as us_not_in_labor_force,
-                              not_in_labor_force::float / employment_status_total   as us_pct_not_in_labor_force,
-                              civilian_labor_force                                  as us_civilian_labor_force,
-                              civilian_labor_force::float / employment_status_total as us_pct_civilian_labor_force,
-                              civilian_employed                                     as us_civilian_employed,
-                              civilian_employed::float / employment_status_total    as us_pct_civilian_employed
-                       from {{ ref('acs5_us_employment_historical') }}
-     ),
+us_employment AS (
+    SELECT
+        year,
+        employment_status_total AS us_employment_status_total,
+        'us' AS country,
+        in_labor_force AS us_in_labor_force,
+        CAST(in_labor_force AS BIGNUMERIC) / CAST(employment_status_total AS BIGNUMERIC) AS us_pct_in_labor_force,
+        not_in_labor_force AS us_not_in_labor_force,
+        CAST(not_in_labor_force AS BIGNUMERIC) / CAST(employment_status_total AS BIGNUMERIC) AS us_pct_not_in_labor_force,
+        civilian_labor_force AS us_civilian_labor_force,
+        CAST(civilian_labor_force AS BIGNUMERIC) / CAST(employment_status_total AS BIGNUMERIC) AS us_pct_civilian_labor_force,
+        civilian_employed AS us_civilian_employed,
+        CAST(civilian_employed AS BIGNUMERIC) / CAST(employment_status_total AS BIGNUMERIC) AS us_pct_civilian_employed
+    FROM
+        {{ ref('acs5_us_employment_historical') }}
+),
 
-     state_employment as (select year,
-                                 state_fip,
-                                 'us'                                                  as country,
-                                 employment_status_total                               as state_employment_status_total,
-                                 in_labor_force                                        as state_in_labor_force,
-                                 in_labor_force::float / employment_status_total       as state_pct_in_labor_force,
-                                 not_in_labor_force                                    as state_not_in_labor_force,
-                                 not_in_labor_force::float / employment_status_total   as state_pct_not_in_labor_force,
-                                 civilian_labor_force                                  as state_civilian_labor_force,
-                                 civilian_labor_force::float / employment_status_total as state_pct_civilian_labor_force,
-                                 civilian_employed                                     as state_civilian_employed,
-                                 civilian_employed::float / employment_status_total    as state_pct_civilian_employed
-                          from {{ ref('acs5_state_employment_historical') }}
-                          )
-select
-    {{dbt_utils.generate_surrogate_key(['cd_employment.year', 'cd_employment.state_fip', 'cd_employment.congressional_district'])}} as id,
+state_employment AS (
+    SELECT
+        year,
+        state_fip,
+        'us' AS country,
+        employment_status_total AS state_employment_status_total,
+        in_labor_force AS state_in_labor_force,
+        CAST(in_labor_force AS BIGNUMERIC) / CAST(employment_status_total AS BIGNUMERIC) AS state_pct_in_labor_force,
+        not_in_labor_force AS state_not_in_labor_force,
+        CAST(not_in_labor_force AS BIGNUMERIC) / CAST(employment_status_total AS BIGNUMERIC) AS state_pct_not_in_labor_force,
+        civilian_labor_force AS state_civilian_labor_force,
+        CAST(civilian_labor_force AS BIGNUMERIC) / CAST(employment_status_total AS BIGNUMERIC) AS state_pct_civilian_labor_force,
+        civilian_employed AS state_civilian_employed,
+        CAST(civilian_employed AS BIGNUMERIC) / CAST(employment_status_total AS BIGNUMERIC) AS state_pct_civilian_employed
+    FROM
+        {{ ref('acs5_state_employment_historical') }}
+)
+
+SELECT
+    {{ dbt_utils.generate_surrogate_key(['cd_employment.year', 'cd_employment.state_fip', 'cd_employment.congressional_district']) }} AS id,
     cd_employment.year,
     cd_employment.state_fip,
     cd_employment.congressional_district,
@@ -80,11 +91,12 @@ select
     us_employment.us_pct_civilian_labor_force,
     us_employment.us_civilian_employed,
     us_employment.us_pct_civilian_employed
-from cd_employment
-left join state_employment
-    on cd_employment.state_fip = state_employment.state_fip
-    and cd_employment.year = state_employment.year
-left join us_employment
-    on cd_employment.country = us_employment.country
-    and cd_employment.year = us_employment.year
-order by cd_employment.state_fip, cd_employment.congressional_district, cd_employment.year
+FROM
+    cd_employment
+LEFT JOIN
+    state_employment ON cd_employment.state_fip = state_employment.state_fip
+    AND cd_employment.year = state_employment.year
+LEFT JOIN
+    us_employment ON cd_employment.country = us_employment.country
+    AND cd_employment.year = us_employment.year
+ -- Removed ORDER BY clause

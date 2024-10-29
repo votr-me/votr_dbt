@@ -4,14 +4,13 @@
 
 
 with congressional_leadership_roles as (
-    select
+    SELECT
         bioguide_id,
-        jsonb_agg(
-            jsonb_build_object(congress::text, leadership_type)
-        ) as leadership_titles
-    from {{ ref('stg_legislator_leadership') }}
-    where leadership_type is not null
-    group by bioguide_id
+        ARRAY_AGG(STRUCT(CAST(congress as STRING) AS congress, leadership_type)) AS leadership_titles
+    FROM
+        {{ ref('stg_legislator_leadership') }}
+    WHERE leadership_type IS NOT NULL
+    GROUP BY bioguide_id
 )
 
 select

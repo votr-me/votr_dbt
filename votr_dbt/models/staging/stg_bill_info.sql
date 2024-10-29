@@ -1,26 +1,27 @@
-{{ config(materialized='incremental') }}
+{{ config(materialized='incremental', primary_key='id') }}
 with bill_info_cte as (
     select
         bill_id,
-        number::int as bill_number,
-        congress::int as congress,
-        title as bill_title,
-        "latestAction.actionDate"::date as latest_action_date,
-        "latestAction.text" as latest_action_text,
-        lower(type) as bill_type,
-        lower("originChamber") as origin_chamber
+        SAFE_CAST(number AS INT64) AS bill_number,
+        SAFE_CAST(congress AS INT64) AS congress,
+        title AS bill_title,
+        CAST(NULLIF(`latestAction_actionDate`, 'nan') AS DATE) AS latest_action_date,
+        `latestAction_text` AS latest_action_text,
+        LOWER(type) AS bill_type,
+        LOWER(`originChamber`) AS origin_chamber
     from {{ source('raw', 'bill_info') }}
 ),
 
 bill_details_cte as (
     select
         bill_id,
-        "introducedDate"::date as bill_introduced_date,
-        "policyArea.name" as policy_area_name
+        CAST(NULLIF(introducedDate, 'nan') AS TIMESTAMP) AS bill_introduced_date,
+        `policyArea_name` AS policy_area_name
     from {{ source('raw', 'bill_details') }}
 )
 
 select
+    {{ dbt_utils.generate_surrogate_key(['bi.bill_id', 'bi.bill_type', 'bi.bill_number', 'bi.congress', 'bi.origin_chamber']) }} AS id,
     bi.bill_id,
     bi.bill_type,
     bi.bill_number,

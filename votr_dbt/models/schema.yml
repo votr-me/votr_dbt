@@ -19,6 +19,9 @@ sources:
 
 models:
   - name: dim_legislator_voting_record
+    config:
+      # partition_by: {field: "date", data_type: "DATE"}
+      cluster_by: ["bioguide_id"]
     description: "Details voting record for given legislator and result of legislation voted on"
     columns:
       - name: bioguide_id
