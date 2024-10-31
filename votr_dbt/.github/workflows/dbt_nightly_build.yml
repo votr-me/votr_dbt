@@ -1,0 +1,37 @@
+name: DBT Nightly Build
+
+on:
+  schedule:
+    - cron: '0 5 * * *'  # Runs at 5 AM UTC daily
+  workflow_dispatch:
+
+
+env:
+  DBT_PROFILE_TARGET: dev
+  DBT_PROFILE_USER: ${{ secrets.DBT_PROFILE_USER }}
+  DBT_PROFILE_PASSWORD: ${{ secrets.DBT_PROFILE_PASSOWRD }}
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  dbt-run:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ secrets.SERVICE_ACCOUNT_EMAIL }}'
+    - 
+
+        
