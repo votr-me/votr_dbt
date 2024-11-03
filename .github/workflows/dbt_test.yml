@@ -28,10 +28,10 @@ jobs:
           project_id: 'votr-dev-430215'
           install_components: 'bq'
 
-      # - name: Authenticate gcloud
-      #   run: |
-      #     gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
-      #     gcloud config set project votr-dev-430215
+      - name: Authenticate gcloud
+        run: |
+          gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
+          gcloud config set project votr-dev-430215
 
       # - name: Run simple BigQuery test
       #   env:
