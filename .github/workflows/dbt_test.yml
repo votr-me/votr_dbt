@@ -24,6 +24,9 @@ jobs:
 
       - name: Test BigQuery Access
         uses: google-github-actions/setup-gcloud@v2
+
+      - name: Run simple BigQuery test
+        run: bq ls
 # jobs:
 #   test-auth:
 #     runs-on: ubuntu-latest
