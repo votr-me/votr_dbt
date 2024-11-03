@@ -22,17 +22,8 @@ jobs:
           workload_identity_provider: '***REMOVED***'
           service_account: "dbt-service-account@votr-dev-430215.iam.gserviceaccount.com"
 
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
-        with:
-          version: '>= 363.0.0'
-          
-      - name: Configure gcloud
-        run: |
-          gcloud config set project votr-dev-430215
-          gcloud auth configure-docker
-
       - name: Test BigQuery Access
-        run: |
-          gcloud auth list
-          bq ls
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Run simple BigQuery test
+        run: bq ls
