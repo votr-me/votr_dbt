@@ -1,6 +1,5 @@
 name: Test DBT Workflow
 
-# Allow manual trigger
 on:
   workflow_dispatch:
 
@@ -19,11 +18,22 @@ jobs:
         id: auth
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: '***REMOVED***'
-          service_account: '***REMOVED***'
+          workload_identity_provider: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ secrets.SERVICE_ACCOUNT_EMAIL }}'
+          create_credentials_file: true
+          export_environment_variables: true
+          
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: '>= 363.0.0'
+          
+      - name: Configure gcloud
+        run: |
+          gcloud config set project votr-dev-430215
+          gcloud auth configure-docker
 
       - name: Test BigQuery Access
-        uses: google-github-actions/setup-gcloud@v2
-
-      - name: Run simple BigQuery test
-        run: bq ls
+        run: |
+          gcloud auth list
+          bq ls
