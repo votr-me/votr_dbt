@@ -1,35 +1,45 @@
-# name: DBT Nightly Build
+name: Run DBT
 
-# on:
-#   schedule:
-#     - cron: '0 5 * * *'  # Runs at 5 AM UTC daily
-#   workflow_dispatch:
+on:
+  schedule:
+    - cron: '0 5 * * *'  # Runs at 5 AM UTC daily
+  workflow_dispatch:
 
 
-# env:
-#   DBT_PROFILE_TARGET: dev
-#   DBT_PROFILE_USER: ${{ secrets.DBT_PROFILE_USER }}
-#   DBT_PROFILE_PASSWORD: ${{ secrets.DBT_PROFILE_PASSOWRD }}
+jobs:
+  test-auth:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read   # Required to access the repository
+      id-token: write  # Needed for Workload Identity Federation authentication
 
-# permissions:
-#   contents: read
-#   id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-# jobs:
-#   dbt-run:
-#     runs-on: ubuntu-latest
-#     permissions:
-#       contents: read
-#       id-token: write
-    
-#     steps:
-#       - name: Checkout Repository
-#         uses: actions/checkout@v4
+      - name: Google Auth
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          create_credentials_file: true
+          token_format: 'access_token'
+          access_token_lifetime: '3600s'
+          access_token_scopes: 'https://www.googleapis.com/auth/cloud-platform'
 
-#       - id: 'auth'
-#         name: 'Authenticate to Google Cloud'
-#         uses: google-github-actions/auth@v2
-#         with:
-#           workload_identity_provider: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
-#           service_account: '${{ secrets.SERVICE_ACCOUNT_EMAIL }}'
-        
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+            python-version: '3.9'
+            cache: 'pip'
+
+      - name: Set up Cloud SDK and BigQuery CLI
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          install_components: 'bq'
+
+      - name: Set GCP Project
+        run: |
+          gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
