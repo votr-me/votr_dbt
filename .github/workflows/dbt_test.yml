@@ -14,29 +14,33 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Google Auth
-        id: auth
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: '***REMOVED***'
-          service_account: "***REMOVED***"
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+
+
+      # - name: Test BigQuery Access
+      #   uses: google-github-actions/setup-gcloud@v2
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
         
-      - name: Auth Info
-        run: |
-          echo "Using credentials from: ${{ steps.auth.outputs.credentials_file_path }}"
-          gcloud auth list
-          gcloud config list
+      # - name: Auth Info
+      #   run: |
+      #     echo "Using credentials from: ${{ steps.auth.outputs.credentials_file_path }}"
+      #     gcloud auth list
+      #     gcloud config list
 
-      - name: Configure BigQuery Auth
-        run: |
-          gcloud auth activate-service-account --key-file="${{ steps.auth.outputs.credentials_file_path }}"
-          export GOOGLE_APPLICATION_CREDENTIALS="${{ steps.auth.outputs.credentials_file_path }}"
+      # - name: Configure BigQuery Auth
+      #   run: |
+      #     gcloud auth activate-service-account --key-file="${{ steps.auth.outputs.credentials_file_path }}"
+      #     export GOOGLE_APPLICATION_CREDENTIALS="${{ steps.auth.outputs.credentials_file_path }}"
           
-      - name: Test BigQuery Access
-        run: bq ls
+      # - name: Test BigQuery Access
+      #   run: bq ls
 
 # name: Test DBT Workflow
 
