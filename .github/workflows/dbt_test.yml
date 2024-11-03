@@ -22,6 +22,8 @@ jobs:
           workload_identity_provider: '***REMOVED***'
           service_account: "***REMOVED***"
 
+      - name: Test BigQuery Access
+        uses: google-github-actions/setup-gcloud@v2
 # jobs:
 #   test-auth:
 #     runs-on: ubuntu-latest
