@@ -21,12 +21,28 @@ jobs:
         with:
           workload_identity_provider: '***REMOVED***'
           service_account: "***REMOVED***"
+          create_credentials_file: true
+          token_format: 'access_token'
+          access_token_lifetime: '3600s'
+          access_token_scopes: 'https://www.googleapis.com/auth/cloud-platform'
 
-      - name: Test BigQuery Access
+      - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: 'votr-dev-430215'
+          install_components: 'bq'
+
+      - name: Authenticate gcloud
+        run: |
+          gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
+          gcloud config set project votr-dev-430215
 
       - name: Run simple BigQuery test
-        run: bq ls
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+        run: |
+          gcloud auth list
+          bq ls
 # jobs:
 #   test-auth:
 #     runs-on: ubuntu-latest
