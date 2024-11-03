@@ -1,5 +1,6 @@
 name: Test DBT Workflow
 
+# Allow manual trigger
 on:
   workflow_dispatch:
 
@@ -18,9 +19,9 @@ jobs:
         id: auth
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
-          service_account: '${{ secrets.SERVICE_ACCOUNT_EMAIL }}'
-          
+          workload_identity_provider: '***REMOVED***'
+          service_account: "dbt-service-account@votr-dev-430215.iam.gserviceaccount.com"
+
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
         with:
