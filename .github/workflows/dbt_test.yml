@@ -1,3 +1,4 @@
+
 name: Test DBT Workflow
 
 on:
@@ -20,13 +21,36 @@ jobs:
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          create_credentials_file: true
+          export_environment_variables: true
+          token_format: 'access_token'
+          access_token_lifetime: '3600s'
+          access_token_scopes: 'https://www.googleapis.com/auth/cloud-platform'
+
+# jobs:
+#   test-auth:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: read
+#       id-token: write
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+
+#       - id: 'auth'
+#         name: 'Authenticate to Google Cloud'
+#         uses: google-github-actions/auth@v2
+#         with:
+#           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+#           service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
 
 
-      # - name: Test BigQuery Access
-      #   uses: google-github-actions/setup-gcloud@v2
+#       # - name: Test BigQuery Access
+#       #   uses: google-github-actions/setup-gcloud@v2
 
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
+#       - name: Set up Cloud SDK
+#         uses: google-github-actions/setup-gcloud@v1
         
       # - name: Auth Info
       #   run: |
