@@ -7,8 +7,8 @@ jobs:
   test-auth:
     runs-on: ubuntu-latest
     permissions:
-      contents: read   # Required to access the repository
-      id-token: write  # Needed for Workload Identity Federation authentication
+      contents: read
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -18,21 +18,30 @@ jobs:
         id: auth
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          workload_identity_provider: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ secrets.SERVICE_ACCOUNT_EMAIL }}'
 
-      - name: Set up Cloud SDK and BigQuery CLI
+      - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
         with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          project_id: '{{ secrets.GCP_PROJECT_ID }}'
           install_components: 'bq'
-
+      
       - name: Configure gcloud with Service Account
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
         run: |
-          gcloud auth activate-service-account --key-file="${{ steps.auth.outputs.credentials_file_path }}"
+          gcloud auth activate-service-account --key-file="${GOOGLE_APPLICATION_CREDENTIALS}"
           gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
+  
+      - name: Authenticate gcloud
+        run: |
+          gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
+          gcloud config set project votr-dev-430215
 
       - name: Run BigQuery test
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
         run: |
           gcloud auth list
           bq ls
